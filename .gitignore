@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/Thermometer/v15
+/Thermometer/bin/Debug/netcoreapp2.0
+/Thermometer/obj/Debug/netcoreapp2.0
