@@ -1,6 +1,6 @@
 ﻿namespace Thermometer.Models
 {
-  internal interface ISensory
+  public interface ISensory
   {
     double GetTemperature();
     string GetDeviceId();

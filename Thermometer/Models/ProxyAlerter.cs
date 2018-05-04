@@ -9,13 +9,15 @@ using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace Thermometer.Models
 {
-    public class ProxyAlerter:IReportable
+  public class ProxyAlerter : IAlerter
+  {
+    private IHostingEnvironment _env;
+
+    public ProxyAlerter(IHostingEnvironment env)
     {
-      private IHostingEnvironment _env;
-      public ProxyAlerter(IHostingEnvironment env)
-      {
-        _env = env;
-      }
+      _env = env;
+    }
+
     public void SendAlert(string message)
     {
       var path = Path.Combine(_env.WebRootPath, (DateTime.Now.ToShortTimeString() + ".txt"));
@@ -23,5 +25,5 @@ namespace Thermometer.Models
       sw.WriteLine(message);
       sw.Dispose();
     }
-    }
+  }
 }

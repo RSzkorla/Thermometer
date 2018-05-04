@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Thermometer.Models
 {
-    interface IReportable
+    public interface IAlerter
     {
       void SendAlert(string message);
     }
