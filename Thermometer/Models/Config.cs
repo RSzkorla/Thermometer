@@ -19,6 +19,8 @@ namespace Thermometer.Models
       LoverWarnBorder = 11;
       UpperWarnBorder = 29;
       UpperAlarmBorder = 30;
+      Emails = new List<string>(){"r.szkorla@gmail.com"};
+      PhoneNumbers =new List<string>();
     }
 
     public void SaveConfig()
