@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Thermometer.BLL;
 
 namespace Thermometer.Hubs
 {
@@ -10,7 +11,7 @@ namespace Thermometer.Hubs
     {
       public async Task Send(string message)
       {
-        await Clients.All.SendAsync("Update", message);
+        await Clients.All.SendAsync("Update", Engine.GetReadings());
       }
   }
 }
