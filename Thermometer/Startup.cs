@@ -40,7 +40,11 @@ namespace Thermometer
           "default",
           "{controller=Home}/{action=Index}/{id?}");
       });
-      app.UseSignalR(routes => { routes.MapHub<UpdateHub>("/hubs/update"); });
+
+      app.UseSignalR(routes =>
+      {
+        routes.MapHub<ChatHub>("/hubs/chat");
+      });
     }
   }
 }
