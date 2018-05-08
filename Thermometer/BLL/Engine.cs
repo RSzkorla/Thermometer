@@ -35,10 +35,10 @@ namespace Thermometer.BLL
       {
         double reading = sensor.GetTemperature();
         sum += reading;
-        strb.Append(reading).Append(" ");
+        strb.Append(reading).Append("\n");
       }
       average = sum / Sensors.Count;
-      return average +" " + strb.ToString();
+      return average +"\n" + strb.ToString();
     }
 
   }

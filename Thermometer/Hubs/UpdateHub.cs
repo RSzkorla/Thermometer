@@ -2,16 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.SignalR;
 using Thermometer.BLL;
 
 namespace Thermometer.Hubs
 {
-    public class UpdateHub: Hub
+  public class UpdateHub : Hub
+  {
+    public override async Task OnConnectedAsync()
     {
-      public async Task Send(string message)
-      {
-        await Clients.All.SendAsync("Update", Engine.GetReadings());
-      }
+      //HostingApplication.Context.User.Identity.Name
+      await Clients.All.SendAsync("SendAction", "", "joined");
+    }
+
+    public override async Task OnDisconnectedAsync(Exception ex)
+    {
+      await Clients.All.SendAsync("SendAction", "", "left");
+    }
+
+    public async Task Send(string message)
+    {
+      await Clients.All.SendAsync("SendMessage", "", Engine.GetReadings());
+    }
   }
 }

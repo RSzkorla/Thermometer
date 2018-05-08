@@ -2,17 +2,21 @@
   ViewData["Title"] = "Home Page";
 }
 
+<br/>
 
-<h1>Chat</h1>
 
 <form id="send-form" action="#">
-  Send a message: 
-  <input type="text" id="message-textbox"  /> 
-  <button id="send-button" type="submit" >Send</button>
+   
+  <input type="text" id="message-textbox"  hidden/> 
+  <button id="send-button" type="submit" >Refresh</button>
 </form>
 
-<ul id="messages-list">
-</ul>
+@*<ul id="messages-list">
+  
+ 
+</ul>*@
+
+<h4 id="temperature"></h4>
 
 @section Scripts {
   <script src="/lib/signalr/signalr.js"></script>
@@ -24,12 +28,15 @@
     var messageTextBox = document.getElementById("message-textbox");
 
     function appendMessage(content) {
-      var li = document.createElement("li");
-      li.innerText = content;
-      messagesList.appendChild(li);
+      //var li = document.createElement("li");
+      //li.innerText = content;
+      //messagesList.appendChild(li);
+
+      var temp = document.getElementById("temperature");
+      temp.innerText = content;
     }
 
-    var connection = new signalR.HubConnection("/hubs/chat");
+    var connection = new signalR.HubConnection("/hubs/update");
 
     sendForm.addEventListener("submit", function() {
       var message = messageTextBox.value;
@@ -38,16 +45,17 @@
     });
 
     connection.on("SendMessage", function (sender, message) {
-      appendMessage(sender + ': ' + message);
+      appendMessage(message);
     });
 
-    connection.on("SendAction", function (sender, action) {
-      appendMessage(sender + ' ' + action);
-    });
+    //connection.on("SendAction", function (sender, action) {
+    //  appendMessage(sender + ' ' + action);
+    //});
 
     connection.start().then(function() {
       messageTextBox.disabled = false;
       sendButton.disabled = false;
     });
+    var timer = setInterval(connection.send("Send", ""), 1000).start;
   </script>
 }

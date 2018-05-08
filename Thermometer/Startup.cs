@@ -43,7 +43,7 @@ namespace Thermometer
 
       app.UseSignalR(routes =>
       {
-        routes.MapHub<ChatHub>("/hubs/chat");
+        routes.MapHub<UpdateHub>("/hubs/update");
       });
     }
   }
