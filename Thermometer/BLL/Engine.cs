@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Thermometer.Hubs;
 using Thermometer.Models;
 
 namespace Thermometer.BLL
@@ -13,6 +15,7 @@ namespace Thermometer.BLL
     public static Config Config = Config.InstanceConfig;
     public static List<ISensory> Sensors;
     public static List<IAlerter> Alerters;
+    public static UpdateHub UpdateHub;
 
     static Engine()
     {
