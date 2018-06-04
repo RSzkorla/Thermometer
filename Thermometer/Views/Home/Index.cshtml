@@ -5,16 +5,16 @@
 <br/>
 
 
-<form id="send-form" action="#">
+<form id="send-form" action="#" hidden>
    
   <input type="text" id="message-textbox"  hidden/> 
   <button id="send-button" type="submit" >Refresh</button>
 </form>
 
-@*<ul id="messages-list">
+<ul id="messages-list">
   
  
-</ul>*@
+</ul>
 
 <h4 id="temperature"></h4>
 
@@ -36,6 +36,12 @@
       temp.innerText = content;
     }
 
+    function appendAlert(content) {
+      var li = document.createElement("li");
+      li.innerText = content;
+      messagesList.appendChild(li);
+    }
+
     var connection = new signalR.HubConnection("/hubs/update");
 
     sendForm.addEventListener("submit", function() {
@@ -52,10 +58,29 @@
     //  appendMessage(sender + ' ' + action);
     //});
 
+    connection.on("Alert",
+      function(sender, message) {
+        appendAlert(message);
+      });
+
+
     connection.start().then(function() {
       messageTextBox.disabled = false;
       sendButton.disabled = false;
     });
-    var timer = setInterval(connection.send("Send", ""), 1000).start;
+
+    var clickMe = document.getElementById("send-button");
+
+    clickMe.addEventListener('click', function() {
+    }, true);
+
+    setInterval(function() {
+      var event = new MouseEvent('click'),
+        canceled = !clickMe.dispatchEvent(event);
+
+      if (canceled) {
+        console.log('Click event was canceled');
+      }
+    }, 1000);
   </script>
 }
