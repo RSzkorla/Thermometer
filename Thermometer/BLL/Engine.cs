@@ -40,7 +40,15 @@ namespace Thermometer.BLL
         sum += reading;
         strb.Append(reading).Append("\n");
       }
+ 
       average = sum / Sensors.Count;
+      if (average > Config.UpperWarnBorder)
+      {
+        foreach (var alerter in Alerters)
+        {
+          alerter.SendAlert("Alert");
+        }
+      }
       return average +"\n" + strb.ToString();
     }
 
