@@ -21,7 +21,6 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new ProxySensor(),
         new GpioSensor()
       };
       Alerters = new List<IAlerter>()

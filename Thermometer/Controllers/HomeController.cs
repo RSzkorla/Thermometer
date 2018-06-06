@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Thermometer.BLL;
 using Thermometer.Models;
 
 namespace Thermometer.Controllers
@@ -33,5 +34,16 @@ namespace Thermometer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+      public IActionResult Config()
+      {
+        return View(Engine.Config.GenenerateViewModel());
+      }
+      [HttpPost]
+      public IActionResult Config(ConfigViewModel config)
+      {
+        Engine.Config.GetConfigFromViewModel(config);
+        return RedirectToAction("Config");
+      }
     }
 }

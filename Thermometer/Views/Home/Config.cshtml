@@ -1,0 +1,45 @@
+﻿@model Thermometer.Models.ConfigViewModel
+
+@{
+    ViewData["Title"] = "Config";
+}
+
+<h2>Configuration</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+      <form method="post" action="@Url.Action("Config", "Home")">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LowerAlarmBorder" class="control-label"></label>
+                <input asp-for="LowerAlarmBorder" class="form-control" />
+                <span asp-validation-for="LowerAlarmBorder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LowerWarnBorder" class="control-label"></label>
+                <input asp-for="LowerWarnBorder" class="form-control" />
+                <span asp-validation-for="LowerWarnBorder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpperWarnBorder" class="control-label"></label>
+                <input asp-for="UpperWarnBorder" class="form-control" />
+                <span asp-validation-for="UpperWarnBorder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpperAlarmBorder" class="control-label"></label>
+                <input asp-for="UpperAlarmBorder" class="form-control" />
+                <span asp-validation-for="UpperAlarmBorder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
