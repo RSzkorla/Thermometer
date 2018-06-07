@@ -15,7 +15,7 @@
 
 <h4 id="temperature"></h4>
 
-<ul id="messages-list"></ul>
+<ul id="messages-list" class="list-group"></ul>
 
 @section Scripts {
   <script src="/lib/signalr/signalr.js"></script>
@@ -38,6 +38,8 @@
     function appendAlert(content) {
       var li = document.createElement("li");
       li.innerText = content;
+      li.classList.add("list-group-item");
+      li.classList.add("list-group-item-danger");
       messagesList.appendChild(li);
     }
 
