@@ -2,6 +2,9 @@
   ViewData["Title"] = "Home Page";
 }
 
+
+<link href="~/css/index.css" rel="stylesheet" />
+
 <br />
 
 
@@ -15,7 +18,7 @@
 
 <h4 id="temperature"></h4>
 
-<ul id="messages-list" class="list-group"></ul>
+<ul id="messages-list" class="list-group revese-ul"></ul>
 
 @section Scripts {
   <script src="/lib/signalr/signalr.js"></script>
@@ -60,7 +63,7 @@
     //});
 
     connection.on("Alert",
-      function(sender, message) {
+      function(message) {
         appendAlert(message);
       });
 

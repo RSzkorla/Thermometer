@@ -1,0 +1,7 @@
+﻿.revese-ul {
+  transform: rotate(180deg);
+}
+
+.revese-ul > li {
+  transform: rotate(-180deg);
+}

@@ -28,7 +28,7 @@ namespace Thermometer.Hubs
 
     public async Task SendAlert(string message)
     {
-      await Clients.All.SendAsync("Alert", "", message);
+      await Clients.All.SendAsync("Alert", message);
     }
     public UpdateHub()
     {
