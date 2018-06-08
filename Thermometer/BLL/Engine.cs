@@ -55,7 +55,7 @@ namespace Thermometer.BLL
       average = sum / Sensors.Count;
       if (CheckWarningRange(average)&&!CheckAlarmRange(average))
       {
-        UpdateHub.SendWarning(DateTime.Now.ToLocalTime() + " Warnming");
+        UpdateHub.SendWarning(DateTime.Now.ToLocalTime() + " Warning");
       }
       if (CheckAlarmRange(average))
       {
