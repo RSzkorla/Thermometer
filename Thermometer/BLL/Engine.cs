@@ -15,7 +15,7 @@ namespace Thermometer.BLL
     public static Config Config = Config.InstanceConfig;
     public static List<ISensory> Sensors;
     public static List<IAlerter> Alerters;
-    public static UpdateHub UpdateHub;
+    public static ViewAlerter ViewAlerter;
 
     static Engine()
     {
@@ -53,13 +53,20 @@ namespace Thermometer.BLL
       }
  
       average = sum / Sensors.Count;
+      if (!CheckWarningRange(average)&&!CheckAlarmRange(average))
+      {
+        ViewAlerter.CanISendAlert = true;
+        ViewAlerter.CanISendWarning = true;
+      }
       if (CheckWarningRange(average)&&!CheckAlarmRange(average))
       {
-        UpdateHub.SendWarning(DateTime.Now.ToLocalTime() + " Warning");
+        ViewAlerter.SendWarning("Warning");
+        ViewAlerter.CanISendWarning = false;
       }
       if (CheckAlarmRange(average))
       {
-        UpdateHub.SendAlert(DateTime.Now.ToLocalTime() + " Alarm");
+        ViewAlerter.SendAlert("ALERT");
+        ViewAlerter.CanISendAlert = false;
       }
       return average +"\n" + strb.ToString();
     }

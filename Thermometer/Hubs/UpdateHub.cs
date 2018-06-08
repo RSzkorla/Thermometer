@@ -37,7 +37,7 @@ namespace Thermometer.Hubs
     }
     public UpdateHub()
     {
-      Engine.UpdateHub = this;
+      Engine.ViewAlerter.Hub = this;
     }
   }
 }
