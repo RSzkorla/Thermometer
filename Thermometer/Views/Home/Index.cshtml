@@ -46,6 +46,14 @@
       messagesList.appendChild(li);
     }
 
+    function appendWarning(content) {
+      var li = document.createElement("li");
+      li.innerText = content;
+      li.classList.add("list-group-item");
+      li.classList.add("list-group-item-warning");
+      messagesList.appendChild(li);
+    }
+
     var connection = new signalR.HubConnection("/hubs/update");
 
     sendForm.addEventListener("submit", function() {
@@ -66,7 +74,10 @@
       function(message) {
         appendAlert(message);
       });
-
+    connection.on("Warning",
+      function(message) {
+        appendWarning(message);
+      });
 
     connection.start().then(function() {
       messageTextBox.disabled = false;

@@ -22,10 +22,6 @@ namespace Thermometer.Models
     public void SendAlert(string message)
     {
       Engine.UpdateHub.SendAlert(DateTime.Now.ToShortTimeString() + " "+ message);
-      var path = Path.Combine(_env.WebRootPath, (DateTime.Now.ToShortTimeString() + ".txt"));
-      var sw = File.CreateText(path);
-      sw.WriteLine(message);
-      sw.Dispose();
     }
   }
 }

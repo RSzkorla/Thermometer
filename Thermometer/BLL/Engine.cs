@@ -29,6 +29,18 @@ namespace Thermometer.BLL
       };
     }
 
+    public static bool CheckWarningRange(double temperature)
+    {
+      if (temperature < Config.LowerWarnBorder || temperature > Config.UpperWarnBorder) return true;
+      return false;
+    }
+
+    public static bool CheckAlarmRange(double temperature)
+    {
+      if (temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder) return true;
+      return false;
+    }
+
     public static string GetReadings()
     {
       var strb = new StringBuilder();
@@ -41,12 +53,13 @@ namespace Thermometer.BLL
       }
  
       average = sum / Sensors.Count;
-      if (average > Config.UpperWarnBorder)
+      if (CheckWarningRange(average)&&!CheckAlarmRange(average))
       {
-        foreach (var alerter in Alerters)
-        {
-          alerter.SendAlert("Alert");
-        }
+        UpdateHub.SendWarning(DateTime.Now.ToLocalTime() + " Warnming");
+      }
+      if (CheckAlarmRange(average))
+      {
+        UpdateHub.SendAlert(DateTime.Now.ToLocalTime() + " Alarm");
       }
       return average +"\n" + strb.ToString();
     }

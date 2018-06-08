@@ -30,6 +30,11 @@ namespace Thermometer.Hubs
     {
       await Clients.All.SendAsync("Alert", message);
     }
+
+    public async Task SendWarning(string message)
+    {
+      await Clients.All.SendAsync("Warning", message);
+    }
     public UpdateHub()
     {
       Engine.UpdateHub = this;
