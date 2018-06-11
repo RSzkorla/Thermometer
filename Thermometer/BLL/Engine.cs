@@ -25,10 +25,10 @@ namespace Thermometer.BLL
       {
         new ProxySensor()
       };
-      Alerters = new List<IAlerter>()
-      {
-        new ProxyAlerter(Startup.Environment)
-      };
+      //Alerters = new List<IAlerter>()
+      //{
+      //  new ProxyAlerter(Startup.Environment)
+      //};
 
       RecentReadings = new List<double>()
       {

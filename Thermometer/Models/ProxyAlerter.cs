@@ -19,9 +19,15 @@ namespace Thermometer.Models
       _env = env;
     }
 
+
+    public void SendWarning(string message)
+    {
+      throw new NotImplementedException();
+    }
+
     public void SendAlert(string message)
     {
-      Engine.UpdateHub.SendAlert(DateTime.Now.ToShortTimeString() + " "+ message);
+      throw new NotImplementedException();
     }
   }
 }
