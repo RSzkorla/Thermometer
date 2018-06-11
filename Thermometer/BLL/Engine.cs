@@ -17,16 +17,30 @@ namespace Thermometer.BLL
     public static List<IAlerter> Alerters;
     public static ViewAlerter ViewAlerter;
 
+    public static List<double> RecentReadings;
+
     static Engine()
     {
       Sensors = new List<ISensory>()
       {
-        new GpioSensor()
+        new ProxySensor()
       };
       Alerters = new List<IAlerter>()
       {
         new ProxyAlerter(Startup.Environment)
       };
+
+      RecentReadings = new List<double>()
+      {
+        Convert.ToDouble(GetReadings()),
+        Convert.ToDouble(GetReadings()),
+        Convert.ToDouble(GetReadings()),
+        Convert.ToDouble(GetReadings()),
+        Convert.ToDouble(GetReadings()),
+      };
+      RecentReadings.Reverse();
+
+
     }
 
     public static bool CheckWarningRange(double temperature)
@@ -45,14 +59,15 @@ namespace Thermometer.BLL
     {
       var strb = new StringBuilder();
       double average = 0,sum=0;
-      foreach (var sensor in Sensors)
-      {
-        double reading = sensor.GetTemperature();
-        sum += reading;
-        strb.Append(reading).Append("\n");
-      }
+      //foreach (var sensor in Sensors)
+      //{
+      //  double reading = sensor.GetTemperature();
+      //  sum += reading;
+      //  strb.Append(reading).Append("\n");
+      //}
  
       average = sum / Sensors.Count;
+      RecentReadings.PushToList(average);
       if (!CheckWarningRange(average)&&!CheckAlarmRange(average))
       {
         ViewAlerter.CanISendAlert = true;
@@ -68,7 +83,7 @@ namespace Thermometer.BLL
         ViewAlerter.SendAlert("ALERT");
         ViewAlerter.CanISendAlert = false;
       }
-      return average +"\n" + strb.ToString();
+      return RecentReadings.GetValuesInOneString(); // + "\n" + strb.ToString();
     }
 
   }
