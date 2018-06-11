@@ -12,7 +12,7 @@ namespace Thermometer.BLL
 
       foreach (var item in list)
       {
-        strb.Append(item).Append(',');
+        strb.Append(item).Append(' ');
       }
       return strb.ToString();
     }

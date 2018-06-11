@@ -29,17 +29,20 @@ namespace Thermometer.BLL
       //{
       //  new ProxyAlerter(Startup.Environment)
       //};
+      ViewAlerter = new ViewAlerter();
 
       RecentReadings = new List<double>()
       {
-        Convert.ToDouble(GetReadings()),
-        Convert.ToDouble(GetReadings()),
-        Convert.ToDouble(GetReadings()),
-        Convert.ToDouble(GetReadings()),
-        Convert.ToDouble(GetReadings()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
       };
       RecentReadings.Reverse();
-
+      var test1 = RecentReadings.GetValuesInOneString();
+      RecentReadings.PushToList(0);
+      var test2 = RecentReadings;
 
     }
 
@@ -55,17 +58,19 @@ namespace Thermometer.BLL
       return false;
     }
 
+
+    
     public static string GetReadings()
     {
       var strb = new StringBuilder();
       double average = 0,sum=0;
-      //foreach (var sensor in Sensors)
-      //{
-      //  double reading = sensor.GetTemperature();
-      //  sum += reading;
-      //  strb.Append(reading).Append("\n");
-      //}
- 
+      foreach (var sensor in Sensors)
+      {
+        double reading = sensor.GetTemperature();
+        sum += reading;
+        strb.Append(reading).Append("\n");
+      }
+
       average = sum / Sensors.Count;
       RecentReadings.PushToList(average);
       if (!CheckWarningRange(average)&&!CheckAlarmRange(average))
@@ -83,7 +88,7 @@ namespace Thermometer.BLL
         ViewAlerter.SendAlert("ALERT");
         ViewAlerter.CanISendAlert = false;
       }
-      return RecentReadings.GetValuesInOneString(); // + "\n" + strb.ToString();
+      return RecentReadings.GetValuesInOneString();
     }
 
   }
