@@ -36,7 +36,7 @@ namespace Thermometer.Controllers
       return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 
-    public IActionResult Config(string message = "")
+    public IActionResult Config(string message = null)
     {
       ViewBag.SavedConfigMessage = message;
       return View(Engine.Config.GenenerateViewModel());
