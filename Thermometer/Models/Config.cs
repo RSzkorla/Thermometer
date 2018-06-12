@@ -13,19 +13,22 @@ namespace Thermometer.Models
 
     public List<string> Emails { get; set; }
     public List<string> PhoneNumbers { get; set; }
+
+    public int DataRefreshRateInSec { get; set; }
+
     private Config()
     {
       LowerAlarmBorder = 10;
       LowerWarnBorder = 11;
       UpperWarnBorder = 20;
       UpperAlarmBorder = 22;
-      Emails = new List<string>(){"r.szkorla@gmail.com"};
-      PhoneNumbers =new List<string>();
+      DataRefreshRateInSec = 1;
+      Emails = new List<string>() {"r.szkorla@gmail.com"};
+      PhoneNumbers = new List<string>();
     }
 
     public void SaveConfig()
     {
-      
     }
 
 
@@ -36,6 +39,7 @@ namespace Thermometer.Models
       UpperWarnBorder = 29;
       UpperAlarmBorder = 30;
     }
+
     public static Config InstanceConfig
     {
       get
@@ -48,13 +52,16 @@ namespace Thermometer.Models
 
     public ConfigViewModel GenenerateViewModel()
     {
-      return new ConfigViewModel(){
+      return new ConfigViewModel()
+      {
         LowerAlarmBorder = this.LowerAlarmBorder,
         LowerWarnBorder = this.LowerWarnBorder,
         UpperWarnBorder = this.UpperWarnBorder,
         UpperAlarmBorder = this.UpperAlarmBorder,
         Emails = this.Emails,
-        PhoneNumbers = this.PhoneNumbers};
+        PhoneNumbers = this.PhoneNumbers,
+        DataRefreshRateInSec = this.DataRefreshRateInSec
+      };
     }
 
     public void GetConfigFromViewModel(ConfigViewModel config)
@@ -65,6 +72,7 @@ namespace Thermometer.Models
       UpperAlarmBorder = config.UpperAlarmBorder;
       Emails = config.Emails;
       PhoneNumbers = config.PhoneNumbers;
+      DataRefreshRateInSec = config.DataRefreshRateInSec;
     }
   }
 }

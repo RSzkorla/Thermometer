@@ -7,6 +7,14 @@
 <h2>Configuration</h2>
 
 <hr />
+
+@if (ViewBag.SavedConfigMessage == "OK")
+{
+  <div class="alert alert-success">
+    <strong>Success!</strong> Configuration saved.
+  </div>
+}
+<br/>
 <div class="row">
     <div class="col-md-4">
       <form method="post" action="@Url.Action("Config", "Home")">
@@ -26,11 +34,16 @@
                 <input asp-for="UpperWarnBorder" class="form-control" />
                 <span asp-validation-for="UpperWarnBorder" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UpperAlarmBorder" class="control-label"></label>
-                <input asp-for="UpperAlarmBorder" class="form-control" />
-                <span asp-validation-for="UpperAlarmBorder" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+          <label asp-for="UpperAlarmBorder" class="control-label"></label>
+          <input asp-for="UpperAlarmBorder" class="form-control" />
+          <span asp-validation-for="UpperAlarmBorder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="DataRefreshRateInSec" class="control-label"></label>
+          <input asp-for="DataRefreshRateInSec" class="form-control" />
+          <span asp-validation-for="DataRefreshRateInSec" class="text-danger"></span>
+        </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

@@ -9,41 +9,44 @@ using Thermometer.Models;
 
 namespace Thermometer.Controllers
 {
-    public class HomeController : Controller
+  public class HomeController : Controller
+  {
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-      public IActionResult Config()
-      {
-        return View(Engine.Config.GenenerateViewModel());
-      }
-      [HttpPost]
-      public IActionResult Config(ConfigViewModel config)
-      {
-        Engine.Config.GetConfigFromViewModel(config);
-        return RedirectToAction("Config");
-      }
+      ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
+      return View();
     }
+
+    public IActionResult About()
+    {
+      ViewData["Message"] = "Your application description page.";
+
+      return View();
+    }
+
+    public IActionResult Contact()
+    {
+      ViewData["Message"] = "Your contact page.";
+
+      return View();
+    }
+
+    public IActionResult Error()
+    {
+      return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+    }
+
+    public IActionResult Config(string message = "")
+    {
+      ViewBag.SavedConfigMessage = message;
+      return View(Engine.Config.GenenerateViewModel());
+    }
+
+    [HttpPost]
+    public IActionResult Config(ConfigViewModel config)
+    {
+      Engine.Config.GetConfigFromViewModel(config);
+      return RedirectToAction("Config", "Home", "OK");
+    }
+  }
 }
