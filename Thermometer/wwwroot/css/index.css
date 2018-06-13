@@ -1,7 +1,35 @@
-﻿.revese-ul {
+﻿body {
+  background: #eaf3f9;
+}
+
+.revese-ul {
   transform: rotate(180deg);
+
 }
 
 .revese-ul > li {
   transform: rotate(-180deg);
+}
+
+.alerts-container {
+  min-height: 270px;
+  height: 270px;
+  display: block;
+  overflow: scroll;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: #e1e9ef;
+}
+
+.chart-container {
+  background: #e1e9ef;
+}
+
+.temperature-container {
+  text-align: center;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
 }

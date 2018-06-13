@@ -16,18 +16,34 @@
 
 
 
-<h4 id="temperature"></h4>
+<div class="temperature-container">
+  <h4 id="temperature">
+  </h4>
+</div>
 
-<ul id="messages-list" class="list-group revese-ul"></ul>
+
+<div >
+  <div class="col-md-6">
+    <div class="chart-container">
+      <canvas id="myChart" ></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="alerts-container">
+      <ul id="messages-list" class="list-group revese-ul"></ul>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
   <script src="/lib/signalr/signalr.js"></script>
+  <script src="~/lib/chart.js/Chart.js"></script>
   <script type="text/javascript">
-    // Bind DOM elements
     var sendForm = document.getElementById("send-form");
     var sendButton = document.getElementById("send-button");
     var messagesList = document.getElementById("messages-list");
     var messageTextBox = document.getElementById("message-textbox");
+    var myChart;
 
     function appendMessage(content) {
       //var li = document.createElement("li");
@@ -35,8 +51,15 @@
       //messagesList.appendChild(li);
 
       var temp = document.getElementById("temperature");
-      temp.innerText = content;
+      temp.innerText = linkToArray(content)[0];
     }
+
+    function linkToArray(param) {
+      return param.split(" ").map(function(item) {
+        return parseFloat(item);
+      });
+    }
+
 
     function appendAlert(content) {
       var li = document.createElement("li");
@@ -64,6 +87,33 @@
 
     connection.on("SendMessage", function (sender, message) {
       appendMessage(message);
+
+      var ctx = document.getElementById("myChart");
+      myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [" ", " ", " ", " ", " "],
+          datasets: [{
+            borderColor: "#4277f4",
+            fill: false,
+            label: 'Temperautue',
+            data: linkToArray(message),
+            borderWidth: 5
+          }]
+        },
+        options: {
+          animation:false,
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero:true
+              }
+            }]
+          }
+        }
+      });
+
+
     });
 
     //connection.on("SendAction", function (sender, action) {
@@ -96,6 +146,9 @@
       if (canceled) {
         console.log('Click event was canceled');
       }
-    }, @ViewBag.RefreshRate*1000);
+    }, @ViewBag.RefreshRate* 1000);
+
+
+
   </script>
 }
