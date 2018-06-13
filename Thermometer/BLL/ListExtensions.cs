@@ -14,6 +14,7 @@ namespace Thermometer.BLL
       {
         strb.Append(item).Append(' ');
       }
+      strb.Remove(strb.Length - 1, 1);
       return strb.ToString();
     }
 
