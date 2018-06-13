@@ -15,6 +15,14 @@
 </form>
 <p id="degree-symbol" hidden>&#176;C</p>
 
+<div>
+  @if (ViewBag.ConfigResult == "Ok")
+  {
+    <div class="alert alert-success" role="alert">
+      <p>Configuration saved</p>
+    </div>
+  }
+</div>
 
 
 <div class="temperature-container row">
@@ -105,7 +113,12 @@
           }]
         },
         options: {
-          animation:false,
+          animation: false,
+          elements: {
+            line: {
+              tension: 0
+            }
+          }
           scales: {
             yAxes: [{
               ticks: {

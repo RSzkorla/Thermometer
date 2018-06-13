@@ -11,9 +11,11 @@ namespace Thermometer.Controllers
 {
   public class HomeController : Controller
   {
-    public IActionResult Index()
+    
+    public IActionResult Index(string message)
     {
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
+      ViewBag.ConfigResult = message;
       return View();
     }
 
@@ -36,9 +38,9 @@ namespace Thermometer.Controllers
       return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 
-    public IActionResult Config(string message)
+    public IActionResult Config()
     {
-      ViewBag.Message = message;
+     
       return View(Engine.Config.GenenerateViewModel());
     }
 
@@ -46,7 +48,7 @@ namespace Thermometer.Controllers
     public IActionResult Config(ConfigViewModel config)
     {
       Engine.Config.GetConfigFromViewModel(config);
-      return RedirectToAction("Config", "Home"," ");
+      return RedirectToAction("Index", "Home",new { message = "Ok" });
     }
   }
 }
