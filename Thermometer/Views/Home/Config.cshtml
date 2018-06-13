@@ -8,49 +8,55 @@
 
 <br/>
 <div class="row">
+  <div class="col-sm-8">
+    <div class="row ">
 
-  <form method="post" action="@Url.Action("Config", "Home")" class="form-horizontal">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-      <label asp-for="LowerAlarmBorder" class="control-label col-sm-2">Lower Alarm Border (in &#176;C)</label>
-      <div class="col-sm-10">
-        <input asp-for="LowerAlarmBorder" class="form-control"/>
-      </div>
-      <span asp-validation-for="LowerAlarmBorder" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="LowerWarnBorder" class="control-label col-sm-2">Lower Warning Border (in &#176;C)</label>
-      <div class="col-sm-10">
-        <input asp-for="LowerWarnBorder" class="form-control"/>
-      </div>
-      <span asp-validation-for="LowerWarnBorder" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="UpperWarnBorder" class="control-label col-sm-2">Upper Warning Border (in &#176;C)</label>
-      <div class="col-sm-10">
-        <input asp-for="UpperWarnBorder" class="form-control"/>
-      </div>
-      <span asp-validation-for="UpperWarnBorder" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="UpperAlarmBorder" class="control-label col-sm-2">Upper Alarm Border (in &#176;C)</label>
-      <div class="col-sm-10">
-        <input asp-for="UpperAlarmBorder" class="form-control"/>
-      </div>
-      <span asp-validation-for="UpperAlarmBorder" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="DataRefreshRateInSec" class="control-label col-sm-2">Refresh Rate (in sec)</label>
-      <div class="col-sm-10">
-        <input asp-for="DataRefreshRateInSec" class="form-control"/>
-      </div>
-      <span asp-validation-for="DataRefreshRateInSec" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <input type="submit" value="Save" class="btn btn-default"/>
-    </div>
-  </form>
+      <form method="post" action="@Url.Action("Config", "Home")" class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+          <label asp-for="LowerAlarmBorder" class="control-label col-sm-8">Lower Alarm Border (in &#176;C)</label>
+          <div class="col-sm-4">
+            <input asp-for="LowerAlarmBorder" class="form-control"/>
+          </div>
+          <span asp-validation-for="LowerAlarmBorder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="LowerWarnBorder" class="control-label col-sm-8">Lower Warning Border (in &#176;C)</label>
+          <div class="col-sm-4">
+            <input asp-for="LowerWarnBorder" class="form-control"/>
+          </div>
+          <span asp-validation-for="LowerWarnBorder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="UpperWarnBorder" class="control-label col-sm-8">Upper Warning Border (in &#176;C)</label>
+          <div class="col-sm-4">
+            <input asp-for="UpperWarnBorder" class="form-control"/>
+          </div>
+          <span asp-validation-for="UpperWarnBorder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="UpperAlarmBorder" class="control-label col-sm-8">Upper Alarm Border (in &#176;C)</label>
+          <div class="col-sm-4">
+            <input asp-for="UpperAlarmBorder" class="form-control"/>
+          </div>
+          <span asp-validation-for="UpperAlarmBorder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="DataRefreshRateInSec" class="control-label col-sm-8">Refresh Rate (in sec)</label>
+          <div class="col-sm-4">
+            <input asp-for="DataRefreshRateInSec" class="form-control"/>
+          </div>
+          <span asp-validation-for="DataRefreshRateInSec" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Save" class="btn btn-default"/>
+        </div>
+      </form>
 
+    </div>
+  </div>
+  <div class="col-sm-4">
+  </div>
 </div>
 
 

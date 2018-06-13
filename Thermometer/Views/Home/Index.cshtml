@@ -119,14 +119,7 @@
               tension: 0
             }
           }
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero:true
-              }
-            }]
           }
-        }
       });
 
 
@@ -152,10 +145,9 @@
 
     var clickMe = document.getElementById("send-button");
 
-    clickMe.addEventListener('click', function() {
-    }, true);
+    clickMe.addEventListener('click', function () { }, true);
 
-    setInterval(function() {
+    setInterval(function () {
       var event = new MouseEvent('click'),
         canceled = !clickMe.dispatchEvent(event);
 
