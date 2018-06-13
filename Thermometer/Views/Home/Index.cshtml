@@ -13,12 +13,14 @@
   <input type="text" id="message-textbox" hidden />
   <button id="send-button" type="submit">Refresh</button>
 </form>
+<p id="degree-symbol" hidden>&#176;C</p>
 
 
 
-<div class="temperature-container">
-  <h4 id="temperature">
-  </h4>
+<div class="temperature-container row">
+  <h4>Actual temperature:</h4>
+  <h1 id="temperature">
+  </h1>
 </div>
 
 
@@ -43,6 +45,7 @@
     var sendButton = document.getElementById("send-button");
     var messagesList = document.getElementById("messages-list");
     var messageTextBox = document.getElementById("message-textbox");
+    var degreeSymbol = document.getElementById("degree-symbol").innerText;
     var myChart;
 
     function appendMessage(content) {
@@ -51,7 +54,7 @@
       //messagesList.appendChild(li);
 
       var temp = document.getElementById("temperature");
-      temp.innerText = linkToArray(content)[0];
+      temp.innerText = linkToArray(content)[0].toString() + degreeSymbol;
     }
 
     function linkToArray(param) {
@@ -96,7 +99,7 @@
           datasets: [{
             borderColor: "#4277f4",
             fill: false,
-            label: 'Temperautue',
+            label: 'Temperature',
             data: linkToArray(message),
             borderWidth: 5
           }]

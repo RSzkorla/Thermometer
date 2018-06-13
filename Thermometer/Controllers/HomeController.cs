@@ -36,9 +36,9 @@ namespace Thermometer.Controllers
       return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 
-    public IActionResult Config(string message = null)
+    public IActionResult Config(string message)
     {
-      ViewBag.SavedConfigMessage = message;
+      ViewBag.Message = message;
       return View(Engine.Config.GenenerateViewModel());
     }
 
@@ -46,7 +46,7 @@ namespace Thermometer.Controllers
     public IActionResult Config(ConfigViewModel config)
     {
       Engine.Config.GetConfigFromViewModel(config);
-      return RedirectToAction("Config", "Home", "OK");
+      return RedirectToAction("Config", "Home"," ");
     }
   }
 }
