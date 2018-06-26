@@ -1,16 +1,18 @@
 ﻿using System;
 using System.IO;
 
-namespace Thermometer.Models
+namespace Thermometer.BLL
 {
   public class GpioSensor:ISensory
   {
-    private string _devicePath = "/sys/bus/w1/devices/28-000008b8db23";
-    public double GetTemperature()
+    private string _devicePath = "/sys/bus/w1/devices/";
+    private string _deviceId = "28-000008b8db23";
+    private string _description = "Gpio Sensor";
+    public double GetTemperatureAsync()
     {
       try
       {
-        StreamReader str = new StreamReader(_devicePath + "/w1_slave");
+        StreamReader str = new StreamReader(_devicePath + _deviceId + "/w1_slave");
         string content = string.Empty;
         while (!str.EndOfStream)
         {
@@ -27,9 +29,8 @@ namespace Thermometer.Models
       }
     }
 
-    public string GetDeviceId()
-    {
-      throw new System.NotImplementedException();
-    }
+    public string GetDeviceId() => _deviceId;
+
+    public string GetDescription() => _description;
   }
 }

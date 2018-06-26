@@ -33,11 +33,11 @@ namespace Thermometer.BLL
 
       RecentReadings = new List<double>()
       {
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
+        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
+        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
+        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
+        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
       };
       RecentReadings.Reverse();
       var test1 = RecentReadings.GetValuesInOneString();
@@ -66,7 +66,7 @@ namespace Thermometer.BLL
       double average = 0,sum=0;
       foreach (var sensor in Sensors)
       {
-        double reading = sensor.GetTemperature();
+        double reading = sensor.GetTemperatureAsync();
         sum += reading;
         strb.Append(reading).Append("\n");
       }

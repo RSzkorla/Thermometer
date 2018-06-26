@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Thermometer.Hubs;
 
-namespace Thermometer.Models
+namespace Thermometer.BLL
 {
     public class ViewAlerter:IAlerter
     {

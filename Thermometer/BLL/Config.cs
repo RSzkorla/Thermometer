@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Thermometer.Models
+namespace Thermometer.BLL
 {
   public class Config
   {

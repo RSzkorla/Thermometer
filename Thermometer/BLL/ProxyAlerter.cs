@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Thermometer.BLL;
 
-namespace Thermometer.Models
+namespace Thermometer.BLL
 {
   public class ProxyAlerter : IAlerter
   {
