@@ -8,7 +8,7 @@ namespace Thermometer.BLL
     private string _devicePath = "/sys/bus/w1/devices/";
     private string _deviceId = "28-000008b8db23";
     private string _description = "Gpio Sensor";
-    public double GetTemperatureAsync()
+    public double GetTemperature()
     {
       try
       {

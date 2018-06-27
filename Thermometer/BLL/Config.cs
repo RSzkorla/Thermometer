@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Thermometer.Models;
 
 namespace Thermometer.BLL
 {

@@ -23,7 +23,7 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new GpioSensor()
+        new Esp32Sensor()
       };
       //Alerters = new List<IAlerter>()
       //{
@@ -33,11 +33,11 @@ namespace Thermometer.BLL
 
       RecentReadings = new List<double>()
       {
-        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
-        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
-        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
-        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
-        Convert.ToDouble(Sensors[0].GetTemperatureAsync()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
+        Convert.ToDouble(Sensors[0].GetTemperature()),
       };
       RecentReadings.Reverse();
       var test1 = RecentReadings.GetValuesInOneString();
@@ -66,7 +66,7 @@ namespace Thermometer.BLL
       double average = 0,sum=0;
       foreach (var sensor in Sensors)
       {
-        double reading = sensor.GetTemperatureAsync();
+        double reading = sensor.GetTemperature();
         sum += reading;
         strb.Append(reading).Append("\n");
       }

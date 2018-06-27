@@ -9,7 +9,7 @@ namespace Thermometer.BLL
     private double _upperRngBorder = 25.0;
     private readonly string _id= Guid.NewGuid().ToString();
     private static readonly Random _rng = new Random();
-    public double GetTemperatureAsync() => Math.Round((_rng.NextDouble() * (_upperRngBorder - _lowerRngBorder) + _lowerRngBorder), 3);
+    public double GetTemperature() => Math.Round((_rng.NextDouble() * (_upperRngBorder - _lowerRngBorder) + _lowerRngBorder), 3);
 
     public string GetDeviceId() => _id.Take(5).ToString();
 
