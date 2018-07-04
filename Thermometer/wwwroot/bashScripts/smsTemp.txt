@@ -1,0 +1,11 @@
+﻿#!/usr/bin/expect -f
+spawn minicom -D /dev/ttyS0
+send "AT\r"
+expect "OK"
+send "AT+CMGF=1\r"
+expect
+send "AT+CMGS=\"{phoneNumber}\"\r"
+expect
+send "{message}\r"
+expect
+send "\032"

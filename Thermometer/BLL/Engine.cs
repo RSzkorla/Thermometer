@@ -16,6 +16,7 @@ namespace Thermometer.BLL
     public static List<ISensory> Sensors;
     public static List<IAlerter> Alerters;
     public static ViewAlerter ViewAlerter;
+    public static GsmAlerter GsmAlerter;
 
     public static List<double> RecentReadings;
 
@@ -30,6 +31,7 @@ namespace Thermometer.BLL
       //  new ProxyAlerter(Startup.Environment)
       //};
       ViewAlerter = new ViewAlerter();
+      GsmAlerter = new GsmAlerter();
 
       RecentReadings = new List<double>()
       {
@@ -77,6 +79,7 @@ namespace Thermometer.BLL
       {
         ViewAlerter.CanISendAlert = true;
         ViewAlerter.CanISendWarning = true;
+        GsmAlerter.CanISendAlert = true;
       }
       if (CheckWarningRange(average)&&!CheckAlarmRange(average))
       {
@@ -86,7 +89,9 @@ namespace Thermometer.BLL
       if (CheckAlarmRange(average))
       {
         ViewAlerter.SendAlert("ALERT");
+        GsmAlerter.SendAlert("Alert!!!/n Temperature is out of allowed range!");
         ViewAlerter.CanISendAlert = false;
+        GsmAlerter.CanISendAlert = false;
       }
       return RecentReadings.GetValuesInOneString();
     }
