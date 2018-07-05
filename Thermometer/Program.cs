@@ -13,7 +13,7 @@ namespace Thermometer
     public static IWebHost BuildWebHost(string[] args)
     {
       return WebHost.CreateDefaultBuilder(args)
-        .UseUrls("http://*:5000;http://localhost:5001")
+        .UseUrls("http://*:80;http://localhost:80")
         .UseStartup<Startup>()
         .Build();
     }
