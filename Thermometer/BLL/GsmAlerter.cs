@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Thermometer.BLL
 {
-    public class GsmAlerter:IAlerter
+  public class GsmAlerter:IAlerter
     {
 
     private IHostingEnvironment _env;
@@ -34,32 +33,13 @@ namespace Thermometer.BLL
       {
         foreach (var number in PhoneNumberList)
         {
-          var script = File.ReadAllText(Path.Combine(_env.WebRootPath, "bashScripts", "smsTemp.txt"));
-          script.Replace("{phoneNumber}", number);
-          script.Replace("{message}", message);
+          var script = File.ReadAllText(Path.Combine(_env.WebRootPath, "bashScripts", "smsTemp"));
+          script = script.Replace("{phoneNumber}", number).Replace("{message}", message);
           File.WriteAllText(Path.Combine(_env.WebRootPath, "bashScripts", "script.sh"), script);
-          ExecuteScript(Path.Combine(".",_env.WebRootPath, "bashScripts", "script.sh"));
+          var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
+          path.Bash();
         }
       }
-    }
-
-    private string ExecuteScript(string cmd)
-    {
-
-      var process = new Process()
-      {
-        StartInfo = new ProcessStartInfo
-        {
-          FileName = "/bin/bash",
-          RedirectStandardOutput = true,
-          UseShellExecute = false,
-          CreateNoWindow = true,
-        }
-      };
-      process.Start();
-      string result = process.StandardOutput.ReadToEnd();
-      process.WaitForExit();
-      return result;
     }
   }
 }

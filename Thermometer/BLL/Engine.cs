@@ -24,7 +24,7 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new Esp32Sensor()
+        new ProxySensor()
       };
       //Alerters = new List<IAlerter>()
       //{
@@ -89,7 +89,7 @@ namespace Thermometer.BLL
       if (CheckAlarmRange(average))
       {
         ViewAlerter.SendAlert("ALERT");
-        GsmAlerter.SendAlert("Alert!!!/n Temperature is out of allowed range!");
+        GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
