@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 using Thermometer.Models;
 
 namespace Thermometer.BLL
@@ -30,6 +32,8 @@ namespace Thermometer.BLL
 
     public void SaveConfig()
     {
+      var json = JsonConvert.SerializeObject(this);
+      File.WriteAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"), json);
     }
 
 
@@ -65,7 +69,7 @@ namespace Thermometer.BLL
       };
     }
 
-    public void GetConfigFromViewModel(ConfigViewModel config)
+    public void SaveConfigFromViewModel(ConfigViewModel config)
     {
       LowerAlarmBorder = config.LowerAlarmBorder;
       LowerWarnBorder = config.LowerWarnBorder;
@@ -74,6 +78,7 @@ namespace Thermometer.BLL
       Emails = config.Emails;
       PhoneNumbers = config.PhoneNumbers;
       DataRefreshRateInSec = config.DataRefreshRateInSec;
+      SaveConfig();
     }
   }
 }

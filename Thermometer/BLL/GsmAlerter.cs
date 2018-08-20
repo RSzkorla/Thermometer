@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Thermometer.BLL
@@ -31,13 +32,24 @@ namespace Thermometer.BLL
     {
       if (CanISendAlert)
       {
+        var strb = new StringBuilder();
         foreach (var number in PhoneNumberList)
         {
-          var script = File.ReadAllText(Path.Combine(_env.WebRootPath, "bashScripts", "smsTemp"));
-          script = script.Replace("{phoneNumber}", number).Replace("{message}", message);
-          File.WriteAllText(Path.Combine(_env.WebRootPath, "bashScripts", "script.sh"), script);
-          var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
-          path.Bash();
+          //  strb.AppendLine("#!/usr/bin/expect -f");
+          //  strb.AppendLine("spawn minicom -D /dev/ttyS0\\r\"");
+          //  strb.AppendLine("send \"AT\\r\"");
+          //  strb.AppendLine("expect");
+          //  strb.AppendLine("send \"AT + CMGF = 1\\r\"");
+          //  strb.AppendLine("expect");
+          //  strb.AppendLine($"send \"AT+CMGS=\\\"{number}\\\"\\r\"");
+          //  strb.AppendLine("expect");
+          //  strb.AppendLine($"send \"{message}\r\"");
+          //  strb.AppendLine("expect");
+          //  strb.AppendLine("send \"\032\"");
+          //  File.WriteAllText(Path.Combine(_env.WebRootPath, "bashScripts", "script.sh"), strb.ToString());
+          //  var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
+          var path = Path.Combine("/home", "pi", "script.sh");
+        path.Bash();
         }
       }
     }
