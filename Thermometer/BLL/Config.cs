@@ -9,6 +9,19 @@ namespace Thermometer.BLL
   {
     private static Config _instanceConfig;
 
+    private Config()
+    {
+      var configViewModel = JsonConvert.DeserializeObject(
+        File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"))) as ConfigViewModel;
+      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
+      LowerWarnBorder = configViewModel.LowerWarnBorder;
+      UpperWarnBorder = configViewModel.UpperWarnBorder;
+      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
+      Emails = configViewModel.Emails;
+      PhoneNumbers = configViewModel.PhoneNumbers;
+      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+    }
+
     public double LowerAlarmBorder { get; set; }
     public double LowerWarnBorder { get; set; }
     public double UpperWarnBorder { get; set; }
@@ -18,32 +31,6 @@ namespace Thermometer.BLL
     public List<string> PhoneNumbers { get; set; }
 
     public double DataRefreshRateInSec { get; set; }
-
-    private Config()
-    {
-      LowerAlarmBorder = 10;
-      LowerWarnBorder = 11;
-      UpperWarnBorder = 20;
-      UpperAlarmBorder = 22;
-      DataRefreshRateInSec = 1;
-      Emails = new List<string>() {"r.szkorla@gmail.com"};
-      PhoneNumbers = new List<string>();
-    }
-
-    public void SaveConfig()
-    {
-      var json = JsonConvert.SerializeObject(this);
-      File.WriteAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"), json);
-    }
-
-
-    public void RestoreDefaults()
-    {
-      LowerAlarmBorder = 10;
-      LowerWarnBorder = 11;
-      UpperWarnBorder = 29;
-      UpperAlarmBorder = 30;
-    }
 
     public static Config InstanceConfig
     {
@@ -55,30 +42,55 @@ namespace Thermometer.BLL
       }
     }
 
+    public void SaveConfig(ConfigViewModel configViewModel)
+    {
+      var json = JsonConvert.SerializeObject(configViewModel);
+      File.WriteAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"), json);
+    }
+
+
+    public void RestoreDefaults()
+    {
+      var configViewModel = (ConfigViewModel) JsonConvert.DeserializeObject(
+        File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "default.json")));
+      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
+      LowerWarnBorder = configViewModel.LowerWarnBorder;
+      UpperWarnBorder = configViewModel.UpperWarnBorder;
+      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
+      Emails = configViewModel.Emails;
+      PhoneNumbers = configViewModel.PhoneNumbers;
+      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+    }
+
     public ConfigViewModel GenenerateViewModel()
     {
-      return new ConfigViewModel()
+      return new ConfigViewModel
       {
-        LowerAlarmBorder = this.LowerAlarmBorder,
-        LowerWarnBorder = this.LowerWarnBorder,
-        UpperWarnBorder = this.UpperWarnBorder,
-        UpperAlarmBorder = this.UpperAlarmBorder,
-        Emails = this.Emails,
-        PhoneNumbers = this.PhoneNumbers,
-        DataRefreshRateInSec = this.DataRefreshRateInSec
+        LowerAlarmBorder = LowerAlarmBorder,
+        LowerWarnBorder = LowerWarnBorder,
+        UpperWarnBorder = UpperWarnBorder,
+        UpperAlarmBorder = UpperAlarmBorder,
+        Emails = Emails,
+        PhoneNumbers = PhoneNumbers,
+        DataRefreshRateInSec = DataRefreshRateInSec
       };
     }
 
-    public void SaveConfigFromViewModel(ConfigViewModel config)
+    private void GetConfigFromJson()
     {
-      LowerAlarmBorder = config.LowerAlarmBorder;
-      LowerWarnBorder = config.LowerWarnBorder;
-      UpperWarnBorder = config.UpperWarnBorder;
-      UpperAlarmBorder = config.UpperAlarmBorder;
-      Emails = config.Emails;
-      PhoneNumbers = config.PhoneNumbers;
-      DataRefreshRateInSec = config.DataRefreshRateInSec;
-      SaveConfig();
+
+    }
+
+    public void SaveConfigFromViewModel(ConfigViewModel configViewModel)
+    {
+      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
+      LowerWarnBorder = configViewModel.LowerWarnBorder;
+      UpperWarnBorder = configViewModel.UpperWarnBorder;
+      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
+      Emails = configViewModel.Emails;
+      PhoneNumbers = configViewModel.PhoneNumbers;
+      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+      SaveConfig(configViewModel);
     }
   }
 }
