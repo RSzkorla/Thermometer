@@ -24,8 +24,7 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new Esp32Sensor(){_sensorID = 0},
-        new Esp32Sensor(){_sensorID = 1}
+        new Esp32Sensor(){_sensorID = 0}
       };
       //Alerters = new List<IAlerter>()
       //{
@@ -42,10 +41,7 @@ namespace Thermometer.BLL
         Convert.ToDouble(Sensors[0].GetTemperature()),
         Convert.ToDouble(Sensors[0].GetTemperature()),
       };
-      RecentReadings.Reverse();
-      var test1 = RecentReadings.GetValuesInOneString();
-      RecentReadings.PushToList(0);
-      var test2 = RecentReadings;
+
 
     }
 

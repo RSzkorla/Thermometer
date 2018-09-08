@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 
@@ -41,7 +42,7 @@ namespace Thermometer.BLL
           {
             readings++;
             string data = content.ReadAsStringAsync().Result.Split(',').ElementAt(_sensorID);
-            var value = Convert.ToDouble(data);
+            var value = Convert.ToDouble(data, new NumberFormatInfo { NumberDecimalSeparator = "."});
             if (value == -999.00)
             {
               errorReadings++;
