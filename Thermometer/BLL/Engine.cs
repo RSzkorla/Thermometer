@@ -24,7 +24,8 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new Esp32Sensor()
+        new Esp32Sensor(){_sensorID = 0},
+        new Esp32Sensor(){_sensorID = 1}
       };
       //Alerters = new List<IAlerter>()
       //{

@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Thermometer.BLL
 {
   public class Esp32Sensor : ISensory
   {
+    public string _espIpAddress = "192.168.4.1";
+    public string _description = "Remote Sensor";
+    public int _sensorID = 0;
+    private double lastValue = 0;
+    private long readings=0;
+    private long errorReadings = 0;
 
-    private string _espIpAddress = "192.168.4.1";
-    private string _description = "Remote Sensor";
-    private int _sensorID = 0;
 
     public string GetDescription()
     {
@@ -25,15 +26,32 @@ namespace Thermometer.BLL
 
     public double GetTemperature()
     {
-      string path = "http://" + _espIpAddress + ":80/get";
+      string uri = "http://" + _espIpAddress + ":80/get";
       using (var client = new HttpClient())
       {
-        using (var res = client.GetAsync(path).Result)
+        using (var res = client.GetAsync(uri).Result)
+        {
+          if (!res.IsSuccessStatusCode)
+          {
+            Engine.GsmAlerter.SendAlert("Error with sensor "+ GetDeviceId()+". Intervention needed");
+            return -999;
+          }
+
           using (var content = res.Content)
           {
-            string data = content.ReadAsStringAsync().Result;
-            return Convert.ToDouble(data);
+            readings++;
+            string data = content.ReadAsStringAsync().Result.Split(',').ElementAt(_sensorID);
+            var value = Convert.ToDouble(data);
+            if (value == -999.00)
+            {
+              errorReadings++;
+              if ((errorReadings/readings*100)>10) Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+              return lastValue;
+            }
+            lastValue = value;
+            return value;
           }
+        }
       }
     }
   }
