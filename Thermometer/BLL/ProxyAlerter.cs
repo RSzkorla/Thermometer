@@ -22,12 +22,20 @@ namespace Thermometer.BLL
 
     public void SendWarning(string message)
     {
-      throw new NotImplementedException();
+      string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"));
+      var strb = new StringBuilder();
+      strb.Append(content);
+      strb.AppendLine(message);
+      File.WriteAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"), strb.ToString());
     }
 
     public void SendAlert(string message)
     {
-      throw new NotImplementedException();
+      string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyAlerts.txt"));
+      var strb = new StringBuilder();
+      strb.Append(content);
+      strb.AppendLine(message);
+      File.WriteAllText(Path.Combine(_env.WebRootPath, "temp", "proxyAlerts.txt"), strb.ToString());
     }
   }
 }
