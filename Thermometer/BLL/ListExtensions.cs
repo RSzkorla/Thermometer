@@ -6,7 +6,17 @@ namespace Thermometer.BLL
 {
   public static class ListExtensions
   {
-    public static string GetValuesInOneString(this IList list)
+    public static string GetDoubleValuesInOneStringFromTwoDimList(this List<List<double>> list)
+    {
+      var strb = new StringBuilder();
+      foreach (var item in list)
+      {
+        strb.AppendLine(GetDoubleValuesInOneStringFromOneDimList(item));
+      }
+      return strb.ToString();
+    }
+
+    public static string GetDoubleValuesInOneStringFromOneDimList(this List<double> list)
     {
       var strb = new StringBuilder();
 

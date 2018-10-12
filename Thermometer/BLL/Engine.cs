@@ -18,31 +18,38 @@ namespace Thermometer.BLL
     public static ViewAlerter ViewAlerter;
     public static GsmAlerter GsmAlerter;
 
-    public static List<double> RecentReadings;
+    public static List<List<double>> RecentReadings;
 
     static Engine()
     {
       Sensors = new List<ISensory>()
       {
-        new Esp32Sensor(){_sensorID = 0}
+        new ProxySensor(),
+        new ProxySensor()
       };
-      //Alerters = new List<IAlerter>()
-      //{
-      //  new ProxyAlerter(Startup.Environment)
-      //};
+
       ViewAlerter = new ViewAlerter();
       GsmAlerter = new GsmAlerter();
 
-      RecentReadings = new List<double>()
+      RecentReadings = new List<List<double>>
       {
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
-        Convert.ToDouble(Sensors[0].GetTemperature()),
+        new List<double>()
+        {
+          Sensors.ElementAt(0).GetTemperature(),
+          Sensors.ElementAt(0).GetTemperature(),
+          Sensors.ElementAt(0).GetTemperature(),
+          Sensors.ElementAt(0).GetTemperature(),
+          Sensors.ElementAt(0).GetTemperature()
+        },
+        new List<double>()
+        {
+          Sensors.ElementAt(1).GetTemperature(),
+          Sensors.ElementAt(1).GetTemperature(),
+          Sensors.ElementAt(1).GetTemperature(),
+          Sensors.ElementAt(1).GetTemperature(),
+          Sensors.ElementAt(1).GetTemperature()
+        }
       };
-
-
     }
 
     public static bool CheckWarningRange(double temperature)
@@ -58,27 +65,26 @@ namespace Thermometer.BLL
     }
 
 
-    
     public static string GetReadings()
     {
-      var strb = new StringBuilder();
-      double average = 0,sum=0;
-      foreach (var sensor in Sensors)
+      double average = 0, sum = 0;
+      for (var i = 0; i < Sensors.Count; i++)
       {
+        var sensor = Sensors[i];
         double reading = sensor.GetTemperature();
         sum += reading;
-        strb.Append(reading).Append("\n");
+        RecentReadings.ElementAt(i).PushToList(reading);
       }
 
       average = sum / Sensors.Count;
-      RecentReadings.PushToList(average);
-      if (!CheckWarningRange(average)&&!CheckAlarmRange(average))
+
+      if (!CheckWarningRange(average) && !CheckAlarmRange(average))
       {
         ViewAlerter.CanISendAlert = true;
         ViewAlerter.CanISendWarning = true;
         GsmAlerter.CanISendAlert = true;
       }
-      if (CheckWarningRange(average)&&!CheckAlarmRange(average))
+      if (CheckWarningRange(average) && !CheckAlarmRange(average))
       {
         ViewAlerter.SendWarning("Warning");
         ViewAlerter.CanISendWarning = false;
@@ -90,8 +96,7 @@ namespace Thermometer.BLL
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
-      return RecentReadings.GetValuesInOneString();
+      return RecentReadings.GetDoubleValuesInOneStringFromTwoDimList();
     }
-
   }
 }
