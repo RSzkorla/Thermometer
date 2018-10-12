@@ -11,15 +11,22 @@ namespace Thermometer.BLL
 
     private Config()
     {
-      var configViewModel = JsonConvert.DeserializeObject(
-        File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"))) as ConfigViewModel;
-      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
-      LowerWarnBorder = configViewModel.LowerWarnBorder;
-      UpperWarnBorder = configViewModel.UpperWarnBorder;
-      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
-      Emails = configViewModel.Emails;
-      PhoneNumbers = configViewModel.PhoneNumbers;
-      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+      //var configViewModel = JsonConvert.DeserializeObject(
+      //  File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"))) as ConfigViewModel;
+      //LowerAlarmBorder = configViewModel.LowerAlarmBorder;
+      //LowerWarnBorder = configViewModel.LowerWarnBorder;
+      //UpperWarnBorder = configViewModel.UpperWarnBorder;
+      //UpperAlarmBorder = configViewModel.UpperAlarmBorder;
+      //Emails = configViewModel.Emails;
+      //PhoneNumbers = configViewModel.PhoneNumbers;
+      //DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+      LowerAlarmBorder = 10;
+      LowerWarnBorder = 11 ;
+      UpperWarnBorder = 15 ;
+      UpperAlarmBorder = 16;
+      Emails = new List<string>();
+      PhoneNumbers = new List<string>();
+      DataRefreshRateInSec = 1;
     }
 
     public double LowerAlarmBorder { get; set; }
