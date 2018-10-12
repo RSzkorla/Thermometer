@@ -1,5 +1,5 @@
 ﻿body {
-  background: #eff5ff;
+  background: #FFFFFF;
 }
 
 .revese-ul {
@@ -18,11 +18,11 @@
   overflow: scroll;
   max-width: 100%;
   overflow-x: hidden;
-  background: #eaf2ff;
+  background: #FEFBFF;
 }
 
 .chart-container {
-  background: #eaf2ff;
+  background: #FEFBFF;
 }
 
 .temperature-container {

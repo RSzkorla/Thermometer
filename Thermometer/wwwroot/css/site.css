@@ -21,6 +21,12 @@
     width: 100%;
 }
 
+.navbar {
+  background-color: #25536E;
+  border-color: #25536E;
+  color: #E8E8E8;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
