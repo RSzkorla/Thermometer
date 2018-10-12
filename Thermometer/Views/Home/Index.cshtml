@@ -60,7 +60,8 @@
     var messagesList = document.getElementById("messages-list");
     var messageTextBox = document.getElementById("message-textbox");
     var degreeSymbol = document.getElementById("degree-symbol").innerText;
-    var myChart;
+    var myChart0;
+    var myChart1;
 
     function appendMessage(content) {
       //var li = document.createElement("li");
@@ -117,7 +118,7 @@
         var readings = message.split("\n");
 
         var ctx = document.getElementById("myChart 0");
-        myChart = new Chart(ctx,
+        myChart0 = new Chart(ctx,
           {
             type: 'line',
             data: {
@@ -174,6 +175,64 @@
             }
           });
 
+
+        var ctx1 = document.getElementById("myChart 1");
+        myChart1 = new Chart(ctx1,
+          {
+            type: 'line',
+            data: {
+              labels: [" ", " ", " ", " ", " "],
+              datasets: [
+                {
+                  borderColor: "#4277f4",
+                  fill: false,
+                  label: 'Temperature',
+                  data: linkToArray(readings[1]).reverse(),
+                  borderWidth: 5,
+                  pointRadius: 2
+                },
+                {
+                  borderColor: "#e20000",
+                  fill: false,
+                  data: getArrayOfIdenticalValues(@Model.UpperAlarmBorder, 5),
+                  borderWidth: 2,
+                  pointRadius: 0
+                },
+                {
+                  borderColor: "#e20000",
+                  fill: false,
+                  data: getArrayOfIdenticalValues(@Model.LowerAlarmBorder, 5),
+                  borderWidth: 2,
+                  pointRadius: 0
+                },
+                {
+                  borderColor: "#ffdd00",
+                  fill: false,
+                  data: getArrayOfIdenticalValues(@Model.UpperWarnBorder, 5),
+                  borderWidth: 2,
+                  pointRadius: 0
+                },
+                {
+                  borderColor: "#ffdd00",
+                  fill: false,
+                  data: getArrayOfIdenticalValues(@Model.LowerWarnBorder, 5),
+                  borderWidth: 2,
+                  pointRadius: 0
+                }
+              ]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              animation: false,
+              elements: {
+                line: {
+                  tension: 0
+                }
+              }
+            }
+          });
 
       });
 
