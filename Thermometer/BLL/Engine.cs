@@ -23,8 +23,8 @@ namespace Thermometer.BLL
     {
       Sensors = new List<ISensory>()
       {
-        new ProxySensor(),
-        new ProxySensor()
+        new Esp32Sensor(),
+        new Esp32Sensor()
       };
 
       ViewAlerter = new ViewAlerter();
