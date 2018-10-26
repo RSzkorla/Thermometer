@@ -2,13 +2,17 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Thermometer.BLL;
 using Thermometer.Hubs;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Thermometer
 {
   public class Startup
   {
     public static IHostingEnvironment Environment;
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -21,6 +25,7 @@ namespace Thermometer
     {
       services.AddMvc();
       services.AddSignalR();
+      services.AddSingleton<IHostedService, MonitorService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,10 +46,7 @@ namespace Thermometer
           "{controller=Home}/{action=Index}/{id?}");
       });
 
-      app.UseSignalR(routes =>
-      {
-        routes.MapHub<UpdateHub>("/hubs/update");
-      });
+      app.UseSignalR(routes => { routes.MapHub<UpdateHub>("/hubs/update"); });
     }
   }
 }

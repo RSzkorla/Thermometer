@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Thermometer.Hubs;
-using Thermometer.Models;
+using System.Threading;
+using Microsoft.Extensions.Hosting;
 
 namespace Thermometer.BLL
 {
@@ -17,23 +12,24 @@ namespace Thermometer.BLL
     public static List<List<double>> RecentReadings;
     public static ViewAlerter ViewAlerter;
     public static GsmAlerter GsmAlerter;
-    public static Monitor Monitor;
+    public static MonitorService MonitorService;
 
-     static Engine()
+    static Engine()
     {
-      Sensors = new List<ISensory>()
+      Sensors = new List<ISensory>
       {
-        new Esp32Sensor(),
-        new Esp32Sensor()
+        new ProxySensor(),
+        new ProxySensor()
       };
 
       ViewAlerter = new ViewAlerter();
       GsmAlerter = new GsmAlerter();
-      Monitor = new Monitor();
+
+      MonitorService = new MonitorService();
 
       RecentReadings = new List<List<double>>
       {
-        new List<double>()
+        new List<double>
         {
           Sensors.ElementAt(0).GetTemperature(),
           Sensors.ElementAt(0).GetTemperature(),
@@ -41,7 +37,7 @@ namespace Thermometer.BLL
           Sensors.ElementAt(0).GetTemperature(),
           Sensors.ElementAt(0).GetTemperature()
         },
-        new List<double>()
+        new List<double>
         {
           Sensors.ElementAt(1).GetTemperature(),
           Sensors.ElementAt(1).GetTemperature(),
@@ -50,59 +46,58 @@ namespace Thermometer.BLL
           Sensors.ElementAt(1).GetTemperature()
         }
       };
-        
+      MonitorService.StartAsync(new CancellationToken());
     }
 
     public static bool CheckWarningRange(double temperature)
     {
-      if (temperature < Engine.Config.LowerWarnBorder || temperature > Engine.Config.UpperWarnBorder) return true;
+      if (temperature < Config.LowerWarnBorder || temperature > Config.UpperWarnBorder) return true;
       return false;
     }
 
     public static bool CheckAlarmRange(double temperature)
     {
-      if (temperature < Engine.Config.LowerAlarmBorder || temperature > Engine.Config.UpperAlarmBorder) return true;
+      if (temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder) return true;
       return false;
     }
 
     public static string GetRecentReadings()
     {
-      Monitoring();
+     
       return RecentReadings.GetDoubleValuesInOneStringFromTwoDimList();
     }
 
     public static void Monitoring()
     {
       double average = 0, sum = 0;
-      for (var i = 0; i < Engine.Sensors.Count; i++)
+      for (var i = 0; i < Sensors.Count; i++)
       {
-        var sensor = Engine.Sensors[i];
+        var sensor = Sensors[i];
         var reading = sensor.GetTemperature();
         sum += reading;
         RecentReadings.ElementAt(i).PushToList(reading);
       }
 
-      average = sum / Engine.Sensors.Count;
+      average = sum / Sensors.Count;
 
       if (!CheckWarningRange(average) && !CheckAlarmRange(average))
       {
-        Engine.ViewAlerter.CanISendAlert = true;
-        Engine.ViewAlerter.CanISendWarning = true;
-        Engine.GsmAlerter.CanISendAlert = true;
+        ViewAlerter.CanISendAlert = true;
+        ViewAlerter.CanISendWarning = true;
+        GsmAlerter.CanISendAlert = true;
       }
       if (CheckWarningRange(average) && !CheckAlarmRange(average))
       {
-        Engine.ViewAlerter.SendWarning("Warning");
-        Engine.ViewAlerter.CanISendWarning = false;
+        ViewAlerter.SendWarning("Warning");
+        ViewAlerter.CanISendWarning = false;
       }
       if (CheckAlarmRange(average))
       {
-        Engine.ViewAlerter.SendAlert("ALERT");
-        Engine.GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
-        Engine.ViewAlerter.CanISendAlert = false;
-        Engine.GsmAlerter.CanISendAlert = false;
+        ViewAlerter.SendAlert("ALERT");
+        GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
+        ViewAlerter.CanISendAlert = false;
+        GsmAlerter.CanISendAlert = false;
       }
     }
-    
   }
 }
