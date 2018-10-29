@@ -47,6 +47,7 @@ namespace Thermometer
       });
 
       app.UseSignalR(routes => { routes.MapHub<UpdateHub>("/hubs/update"); });
+      
     }
   }
 }
