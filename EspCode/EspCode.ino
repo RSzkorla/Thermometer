@@ -61,7 +61,7 @@ void loop()
   }
   data=String(localTemp)+","+String(localTemp1);
   Serial.println(data);
-  delay(500);
+  delay(2000);
 }
 
 

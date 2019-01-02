@@ -26,7 +26,7 @@ namespace Thermometer.BLL
       UpperAlarmBorder = 16;
       Emails = new List<string>();
       PhoneNumbers = new List<string>();
-      DataRefreshRateInSec = 1;
+      DataRefreshRateInSec = 2;
     }
 
     public double LowerAlarmBorder { get; set; }
