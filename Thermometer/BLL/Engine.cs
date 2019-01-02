@@ -23,7 +23,7 @@ namespace Thermometer.BLL
       };
 
       ViewAlerter = new ViewAlerter();
-      GsmAlerter = new GsmAlerter();
+      GsmAlerter = new ProxyAlerter();
 
       MonitorService = new MonitorService();
 
@@ -46,7 +46,7 @@ namespace Thermometer.BLL
           Sensors.ElementAt(1).GetTemperature()
         }
       };
-      MonitorService.StartAsync(new CancellationToken());
+     // MonitorService.StartAsync(new CancellationToken());
     }
 
     public static bool CheckWarningRange(double temperature)

@@ -10,17 +10,17 @@ using Thermometer.BLL;
 
 namespace Thermometer.BLL
 {
-  public class ProxyAlerter : IAlerter
+  public class ProxyAlerter : GsmAlerter, IAlerter
   {
     private IHostingEnvironment _env;
 
-    public ProxyAlerter(IHostingEnvironment env)
+    public ProxyAlerter()
     {
-      _env = env;
+      _env = Startup.Environment;
     }
 
 
-    public void SendWarning(string message)
+    public new void  SendWarning(string message)
     {
       string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"));
       var strb = new StringBuilder();
@@ -29,7 +29,7 @@ namespace Thermometer.BLL
       File.WriteAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"), strb.ToString());
     }
 
-    public void SendAlert(string message)
+    public new void SendAlert(string message)
     {
       string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyAlerts.txt"));
       var strb = new StringBuilder();
