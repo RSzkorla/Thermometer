@@ -46,7 +46,7 @@ namespace Thermometer.BLL
           Sensors.ElementAt(1).GetTemperature()
         }
       };
-     // MonitorService.StartAsync(new CancellationToken());
+
     }
 
     public static bool CheckWarningRange(double temperature)
@@ -63,7 +63,6 @@ namespace Thermometer.BLL
 
     public static string GetRecentReadings()
     {
-     
       return RecentReadings.GetDoubleValuesInOneStringFromTwoDimList();
     }
 
@@ -98,6 +97,11 @@ namespace Thermometer.BLL
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
+      return null;
+    }
+
+    public static string CollectData()
+    {
       return null;
     }
   }

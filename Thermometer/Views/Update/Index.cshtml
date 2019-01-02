@@ -12,10 +12,21 @@
 </head>
 <body>
 <div>
-  <form id="send-form" action="#" n>
-
-    <input type="text" id="message-textbox" />
-    <button id="send-button" type="submit">Refresh</button>
+  <p>Refresh rate: @(@ViewBag.RefreshRate *1000) s</p>
+  <form id="refresh-form" action="#">
+    <button id="refresh-button" type="submit">Force Data Refresh</button>
+  </form>
+</div>
+<div>
+  <p>Average temp collection rate: @(@ViewBag.CollectionRate *1000) s</p>
+  <form id="collection-form" action="#">
+    <button id="collection-button" type="submit">Force Data Collection</button>
+  </form>
+</div>
+<div>
+  <p>Daily report hour: @ViewBag.ReportHour </p>
+  <form id="report-form" action="#">
+    <button id="report-button" type="submit">Force Report Generate</button>
   </form>
 </div>
 </body>
@@ -23,36 +34,48 @@
 <script src="/lib/signalr/signalr.js"></script>
 <script type="text/javascript">
 
-  var sendForm = document.getElementById("send-form");
-  var sendButton = document.getElementById("send-button");
-  var messagesList = document.getElementById("messages-list");
-  var messageTextBox = document.getElementById("message-textbox");
+  var refreshForm = document.getElementById("refresh-form");
+  var refreshButton = document.getElementById("refresh-button");
+  var collectionForm = document.getElementById("collection-form");
+  var collectionButton = document.getElementById("collection-button");
+  var reportForm = document.getElementById("report-form");
+  var reportButton = document.getElementById("report-button");
 
   var connection = new signalR.HubConnection("/hubs/update");
 
-  connection.start().then(function () {
-    messageTextBox.disabled = false;
-    sendButton.disabled = false;
-  });
-  sendForm.addEventListener("submit",
+  connection.start();
+
+  refreshForm.addEventListener("submit",
     function() {
-      var message = messageTextBox.value;
-      messageTextBox.value = "";
+      var message = "";
       connection.send("Update", message);
     });
-  
-
-  var clickMe = document.getElementById("send-button");
-
-  clickMe.addEventListener('click', function() {}, true);
-
+  refreshButton.addEventListener('click', function() {}, true);
   setInterval(function() {
       var event = new MouseEvent('click'),
-        canceled = !clickMe.dispatchEvent(event);
+        canceled = !refreshButton.dispatchEvent(event);
 
       if (canceled) {
         console.log('Click event was canceled');
       }
     },
     @ViewBag.RefreshRate * 1000);
+
+
+  collectionForm.addEventListener("submit",
+    function() {
+      var message = "";
+      connection.send("Collect", message);
+    });
+  collectionButton.addEventListener('click', function() {}, true);
+  setInterval(function() {
+      var event = new MouseEvent('click'),
+        canceled = !collectionButton.dispatchEvent(event);
+
+      if (canceled) {
+        console.log('Click event was canceled');
+      }
+    },
+    @ViewBag.CollectionRate * 1000);
+
 </script>

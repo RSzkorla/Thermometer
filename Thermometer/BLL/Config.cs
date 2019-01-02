@@ -27,6 +27,7 @@ namespace Thermometer.BLL
       Emails = new List<string>();
       PhoneNumbers = new List<string>();
       DataRefreshRateInSec = 2;
+      DataCollectionRateInSec = 60;
     }
 
     public double LowerAlarmBorder { get; set; }
@@ -38,6 +39,7 @@ namespace Thermometer.BLL
     public List<string> PhoneNumbers { get; set; }
 
     public double DataRefreshRateInSec { get; set; }
+    public double DataCollectionRateInSec { get; set; }
 
     public static Config InstanceConfig
     {
@@ -49,7 +51,7 @@ namespace Thermometer.BLL
       }
     }
 
-    public void SaveConfig(ConfigViewModel configViewModel)
+    public void SaveConfigToFile(ConfigViewModel configViewModel)
     {
       var json = JsonConvert.SerializeObject(configViewModel);
       File.WriteAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"), json);
@@ -79,7 +81,8 @@ namespace Thermometer.BLL
         UpperAlarmBorder = UpperAlarmBorder,
         Emails = Emails,
         PhoneNumbers = PhoneNumbers,
-        DataRefreshRateInSec = DataRefreshRateInSec
+        DataRefreshRateInSec = DataRefreshRateInSec,
+        DataCollectionRateInSec = DataCollectionRateInSec
       };
     }
 
@@ -97,7 +100,8 @@ namespace Thermometer.BLL
       Emails = configViewModel.Emails;
       PhoneNumbers = configViewModel.PhoneNumbers;
       DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
-      SaveConfig(configViewModel);
+      DataCollectionRateInSec = configViewModel.DataCollectionRateInSec;
+      SaveConfigToFile(configViewModel);
     }
   }
 }

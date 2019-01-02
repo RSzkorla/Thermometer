@@ -12,6 +12,7 @@ namespace Thermometer.Controllers
     public IActionResult Index(string message)
     {
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
+      ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;
       ViewBag.ConfigResult = message;
       return View(Engine.Config.GenenerateViewModel());
     }
