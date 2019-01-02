@@ -67,7 +67,7 @@ namespace Thermometer.BLL
       return RecentReadings.GetDoubleValuesInOneStringFromTwoDimList();
     }
 
-    public static void Monitoring()
+    public static string Monitoring()
     {
       double average = 0, sum = 0;
       for (var i = 0; i < Sensors.Count; i++)
@@ -98,6 +98,7 @@ namespace Thermometer.BLL
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
+      return null;
     }
   }
 }

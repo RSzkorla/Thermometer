@@ -26,6 +26,11 @@ namespace Thermometer.Hubs
       await Clients.All.SendAsync("SendMessage", "", Engine.GetRecentReadings());
     }
 
+    public async Task Update(string message)
+    {
+      await Clients.Caller.SendAsync("Update", "", Engine.Monitoring());
+    }
+
     public async Task SendAlert(string message)
     {
       await Clients.All.SendAsync("Alert", message);
