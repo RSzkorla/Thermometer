@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace Thermometer.BLL
 {
@@ -10,9 +9,9 @@ namespace Thermometer.BLL
     public static Config Config = Config.InstanceConfig;
     public static List<ISensory> Sensors;
     public static List<List<double>> RecentReadings;
+    public static List<TimeStamp> CollectedTimeStamps;
     public static ViewAlerter ViewAlerter;
     public static GsmAlerter GsmAlerter;
-    public static MonitorService MonitorService;
 
     static Engine()
     {
@@ -24,8 +23,6 @@ namespace Thermometer.BLL
 
       ViewAlerter = new ViewAlerter();
       GsmAlerter = new ProxyAlerter();
-
-      MonitorService = new MonitorService();
 
       RecentReadings = new List<List<double>>
       {
@@ -46,7 +43,7 @@ namespace Thermometer.BLL
           Sensors.ElementAt(1).GetTemperature()
         }
       };
-
+      CollectedTimeStamps = new List<TimeStamp>();
     }
 
     public static bool CheckWarningRange(double temperature)
@@ -102,6 +99,11 @@ namespace Thermometer.BLL
 
     public static string CollectData()
     {
+      var strb = new StringBuilder();
+      for (var i = 0; i < Sensors.Count; i++)
+        strb.Append("S" + i + ":").Append(RecentReadings[i][0]).Append(" ");
+      CollectedTimeStamps.Add(new TimeStamp("Read", strb.ToString()
+      ));
       return null;
     }
   }
