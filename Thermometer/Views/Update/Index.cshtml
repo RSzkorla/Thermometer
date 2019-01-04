@@ -24,7 +24,7 @@
   </form>
 </div>
 <div>
-  <p>Daily report hour: @ViewBag.ReportHour </p>
+  <p>Daily report hour: @ViewBag.ReportTime.Hour:@ViewBag.ReportTime.Minute:@ViewBag.ReportTime.Second </p>
   <form id="report-form" action="#">
     <button id="report-button" type="submit">Force Report Generate</button>
   </form>

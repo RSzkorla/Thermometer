@@ -23,6 +23,7 @@
 
 .chart-container {
   background: #FEFBFF;
+  pointer-events: none;
 }
 
 .temperature-container {
