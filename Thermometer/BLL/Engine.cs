@@ -45,6 +45,7 @@ namespace Thermometer.BLL
         }
       };
       CollectedTimeStamps = new List<TimeStamp>();
+      
     }
 
 
@@ -112,6 +113,12 @@ namespace Thermometer.BLL
     public static string GenerareReport()
     {
       return null;
+    }
+
+    public static void RunTechnicalPage()
+    {
+      const string technicalPageUrl = @"http://localhost:5001/Update/Index";
+      ("explorer " + technicalPageUrl).Bash();
     }
   }
 }
