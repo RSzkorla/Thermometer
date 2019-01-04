@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -45,6 +46,8 @@ namespace Thermometer.BLL
       };
       CollectedTimeStamps = new List<TimeStamp>();
     }
+
+
 
     public static bool CheckWarningRange(double temperature)
     {
@@ -104,6 +107,10 @@ namespace Thermometer.BLL
         strb.Append("S" + i + ":").Append(RecentReadings[i][0]).Append(" ");
       CollectedTimeStamps.Add(new TimeStamp("Read", strb.ToString()
       ));
+      return null;
+    }
+    public static string GenerareReport()
+    {
       return null;
     }
   }

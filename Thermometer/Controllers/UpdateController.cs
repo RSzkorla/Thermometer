@@ -13,6 +13,7 @@ namespace Thermometer.Controllers
     {
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
       ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;
+      ViewBag.ReportTime = Engine.Config.ReportTime;
       ViewBag.ConfigResult = message;
       return View(Engine.Config.GenenerateViewModel());
     }

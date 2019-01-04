@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Thermometer.Models;
@@ -28,6 +29,7 @@ namespace Thermometer.BLL
       PhoneNumbers = new List<string>();
       DataRefreshRateInSec = 2;
       DataCollectionRateInSec = 60;
+      ReportTime = DateTime.Parse("12:20:00");
     }
 
     public double LowerAlarmBorder { get; set; }
@@ -40,6 +42,7 @@ namespace Thermometer.BLL
 
     public double DataRefreshRateInSec { get; set; }
     public double DataCollectionRateInSec { get; set; }
+    public DateTime ReportTime { get; set; }
 
     public static Config InstanceConfig
     {
@@ -69,6 +72,7 @@ namespace Thermometer.BLL
       Emails = configViewModel.Emails;
       PhoneNumbers = configViewModel.PhoneNumbers;
       DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
+      ReportTime = configViewModel.ReportTime;
     }
 
     public ConfigViewModel GenenerateViewModel()
@@ -82,8 +86,9 @@ namespace Thermometer.BLL
         Emails = Emails,
         PhoneNumbers = PhoneNumbers,
         DataRefreshRateInSec = DataRefreshRateInSec,
-        DataCollectionRateInSec = DataCollectionRateInSec
-      };
+        DataCollectionRateInSec = DataCollectionRateInSec,
+        ReportTime = ReportTime
+    };
     }
 
     private void GetConfigFromJson()
@@ -101,7 +106,8 @@ namespace Thermometer.BLL
       PhoneNumbers = configViewModel.PhoneNumbers;
       DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
       DataCollectionRateInSec = configViewModel.DataCollectionRateInSec;
-      SaveConfigToFile(configViewModel);
+      ReportTime = configViewModel.ReportTime;
+    SaveConfigToFile(configViewModel);
     }
   }
 }

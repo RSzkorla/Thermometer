@@ -19,5 +19,6 @@ namespace Thermometer.Models
     public List<string> PhoneNumbers { get; set; }
     public double DataRefreshRateInSec { get; set; }
     public double DataCollectionRateInSec { get; set; }
+    public DateTime ReportTime { get; set; }
   }
 }

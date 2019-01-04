@@ -36,6 +36,10 @@ namespace Thermometer.Hubs
       await Clients.Caller.SendAsync("Collect", "", Engine.CollectData());
     }
 
+    public async Task Report(string message)
+    {
+      await Clients.Caller.SendAsync("Collect", "", Engine.GenerareReport());
+    }
     public async Task SendAlert(string message)
     {
       await Clients.All.SendAsync("Alert", message);

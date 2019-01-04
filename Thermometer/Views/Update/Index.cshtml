@@ -78,4 +78,24 @@
     },
     @ViewBag.CollectionRate * 1000);
 
+  reportForm.addEventListener("submit",
+    function() {
+      var message = "";
+      connection.send("Report", message);
+    });
+  reportButton.addEventListener('click', function() {}, true);
+  setInterval(function() { // Set interval for checking
+      var date = new Date(); // Create a Date object to find out what time it is
+      if (date.getHours() === @ViewBag.ReportTime.Hour &&
+        date.getMinutes() === @ViewBag.ReportTime.Minute) { // Check the time
+        var event = new MouseEvent('click'),
+          canceled = !reportButton.dispatchEvent(event);
+
+        if (canceled) {
+          console.log('Click event was canceled');
+        }
+      }
+    },
+    30000);
+
 </script>
