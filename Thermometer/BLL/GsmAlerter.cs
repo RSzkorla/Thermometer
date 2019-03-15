@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
@@ -27,22 +28,23 @@ namespace Thermometer.BLL
 
     public void SendAlert(string message)
     {
+      var r = Environment.NewLine;
       if (CanISendAlert)
       {
         var strb = new StringBuilder();
-        strb.AppendLine("#!/usr/bin/expect -f");
-        strb.AppendLine("spawn minicom -D /dev/ttyS0\\r\"");
-        strb.AppendLine("send \"AT\\r\"");
-        strb.AppendLine("expect");
+        strb.Append("#!/usr/bin/expect -f" +r+
+        "spawn minicom -D /dev/ttyS0\\r\"" + r +
+        "send \"AT\\r\"" + r +
+        "expect" + r);
         foreach (var number in PhoneNumberList)
         {
-          strb.AppendLine("send \"AT + CMGF = 1\\r\"");
-          strb.AppendLine("expect");
-          strb.AppendLine($"send \"AT+CMGS=\\\"{number}\\\"\\r\"");
-          strb.AppendLine("expect");
-          strb.AppendLine($"send \"{message}\r\"");
-          strb.AppendLine("expect");
-          strb.AppendLine("send \"\032\"");
+          strb.Append("send \"AT + CMGF = 1\\r\"" + r +
+          "expect" + r +
+          $"send \"AT+CMGS=\\\"{number}\\\"\\r\"" + r +
+          "expect" + r +
+          $"send \"{message}\r\"" + r +
+          "expect" + r +
+          "send \"\032\"" + r);
         }
         File.WriteAllText(Path.Combine("/home","pi", "script.sh"), strb.ToString());
         var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
