@@ -13,6 +13,7 @@ namespace Thermometer.BLL
     private double lastValue = 0;
     private long readings=0;
     private long errorReadings = 0;
+    private bool sendAlert = true;
 
 
     public string GetDescription()
@@ -32,8 +33,9 @@ namespace Thermometer.BLL
       {
         using (var res = client.GetAsync(uri).Result)
         {
-          if (!res.IsSuccessStatusCode)
+          if (!res.IsSuccessStatusCode && sendAlert)
           {
+            sendAlert = false;
             Engine.GsmAlerter.SendAlert("Error with sensor "+ GetDeviceId()+". Intervention needed");
             return -999;
           }
@@ -46,10 +48,22 @@ namespace Thermometer.BLL
             if (value == -999.00)
             {
               errorReadings++;
-              if ((errorReadings/readings*100)>10) Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+
+              if ((errorReadings / readings * 100) > 10 && sendAlert)
+              {
+                Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+                sendAlert = false;
+              }
+
               return lastValue;
             }
+            sendAlert = true;
             lastValue = value;
+            if (readings == int.MaxValue - 1)
+            {
+              readings = 0;
+              errorReadings = 0;
+            }
             return value;
           }
         }

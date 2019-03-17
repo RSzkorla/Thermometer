@@ -93,7 +93,7 @@ namespace Thermometer.BLL
       }
       if (CheckAlarmRange(average))
       {
-        ViewAlerter.SendAlert("ALERT");
+        ViewAlerter.SendAlert("ALERT Temperature is out of allowed range!");
         GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
