@@ -59,11 +59,9 @@ namespace Thermometer.BLL
             }
             sendAlert = true;
             lastValue = value;
-            if (readings == int.MaxValue - 1)
-            {
-              readings = 0;
-              errorReadings = 0;
-            }
+            if (readings != int.MaxValue - 1) return value;
+            readings = 0;
+            errorReadings = 0;
             return value;
           }
         }

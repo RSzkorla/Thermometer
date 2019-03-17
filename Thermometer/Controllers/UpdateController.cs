@@ -9,13 +9,22 @@ namespace Thermometer.Controllers
 {
   public class UpdateController : Controller
   {
-    public IActionResult Index(string message)
+    private static bool _firstLoadFailed = true;
+    public IActionResult Index(string guid)
     {
+      string readGuid = System.IO.File.ReadAllText("guid");
+      if (readGuid != guid&&_firstLoadFailed) return RedirectToAction("Error");
+      //_firstLoadFailed = false;
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
       ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;
       ViewBag.ReportTime = Engine.Config.ReportTime;
-      ViewBag.ConfigResult = message;
+      ViewBag.SessionGuid = guid;
       return View(Engine.Config.GenenerateViewModel());
+    }
+
+    public IActionResult Error()
+    {
+      return View();
     }
   }
 }

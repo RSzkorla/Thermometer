@@ -11,27 +11,22 @@
   <title>Technical Page</title>
 </head>
 <body>
+<dir>
+  <p>Session guid: @ViewBag.SessionGuid</p>
+</dir>
 <div>
-  <p>Refresh rate: @(@ViewBag.RefreshRate *1000) s</p>
-  <form id="refresh-form" action="#">
-    <button id="refresh-button" type="submit">Force Data Refresh</button>
-  </form>
+  <p>Refresh rate: @(ViewBag.RefreshRate * 1000) s</p>
 </div>
 <div>
-  <p>Average temp collection rate: @(@ViewBag.CollectionRate *1000) s</p>
-  <form id="collection-form" action="#">
-    <button id="collection-button" type="submit">Force Data Collection</button>
-  </form>
+  <p>Average temp collection rate: @(ViewBag.CollectionRate * 1000) s</p>
 </div>
 <div>
   <p>Daily report hour: @ViewBag.ReportTime.Hour:@ViewBag.ReportTime.Minute:@ViewBag.ReportTime.Second </p>
-  <form id="report-form" action="#">
-    <button id="report-button" type="submit">Force Report Generate</button>
-  </form>
 </div>
 </body>
 </html>
 <script src="/lib/signalr/signalr.js"></script>
+
 <script type="text/javascript">
 
   var refreshForm = document.getElementById("refresh-form");
@@ -42,18 +37,15 @@
   var reportButton = document.getElementById("report-button");
 
   var connection = new signalR.HubConnection("/hubs/update");
-
   connection.start();
 
-  refreshForm.addEventListener("submit",
-    function() {
+  //Refresh
+  setInterval(function() {
+
+
       var message = "";
       connection.send("Update", message);
-    });
-  refreshButton.addEventListener('click', function() {}, true);
-  setInterval(function() {
-      var event = new MouseEvent('click'),
-        canceled = !refreshButton.dispatchEvent(event);
+
 
       if (canceled) {
         console.log('Click event was canceled');
@@ -61,16 +53,11 @@
     },
     @ViewBag.RefreshRate * 1000);
 
+  //Collection
 
-  collectionForm.addEventListener("submit",
-    function() {
+  setInterval(function() {
       var message = "";
       connection.send("Collect", message);
-    });
-  collectionButton.addEventListener('click', function() {}, true);
-  setInterval(function() {
-      var event = new MouseEvent('click'),
-        canceled = !collectionButton.dispatchEvent(event);
 
       if (canceled) {
         console.log('Click event was canceled');
@@ -78,18 +65,13 @@
     },
     @ViewBag.CollectionRate * 1000);
 
-  reportForm.addEventListener("submit",
-    function() {
-      var message = "";
-      connection.send("Report", message);
-    });
-  reportButton.addEventListener('click', function() {}, true);
-  setInterval(function() { // Set interval for checking
-      var date = new Date(); // Create a Date object to find out what time it is
+  //Report
+  setInterval(function() {
+      var date = new Date();
       if (date.getHours() === @ViewBag.ReportTime.Hour &&
-        date.getMinutes() === @ViewBag.ReportTime.Minute) { // Check the time
-        var event = new MouseEvent('click'),
-          canceled = !reportButton.dispatchEvent(event);
+        date.getMinutes() === @ViewBag.ReportTime.Minute) {
+        var message = "";
+        connection.send("Report", message);
 
         if (canceled) {
           console.log('Click event was canceled');
@@ -97,5 +79,6 @@
       }
     },
     30000);
+
 
 </script>

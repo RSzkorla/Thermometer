@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Thermometer
@@ -7,6 +9,9 @@ namespace Thermometer
   {
     public static void Main(string[] args)
     {
+      File.WriteAllText("guid",Guid.NewGuid().ToString());
+      Console.WriteLine(File.ReadAllText("guid"));
+      Console.WriteLine(Environment.CurrentDirectory);
       BuildWebHost(args).Run();
     }
 
