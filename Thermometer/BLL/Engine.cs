@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Thermometer.BLL
@@ -45,6 +47,7 @@ namespace Thermometer.BLL
         }
       };
       CollectedTimeStamps = new List<TimeStamp>();
+      CollectedTimeStamps.Add(new TimeStamp("STARTUP","System started"));
       
     }
 
@@ -89,12 +92,14 @@ namespace Thermometer.BLL
       if (CheckWarningRange(average) && !CheckAlarmRange(average))
       {
         ViewAlerter.SendWarning("Warning");
+        CollectedTimeStamps.Add(new TimeStamp("WARNING", "Temperature in warning range"));
         ViewAlerter.CanISendWarning = false;
       }
       if (CheckAlarmRange(average))
       {
         ViewAlerter.SendAlert("ALERT Temperature is out of allowed range!");
         GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
+        CollectedTimeStamps.Add(new TimeStamp("ALERT", "Temperature out of allowed range!"));
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
@@ -106,12 +111,22 @@ namespace Thermometer.BLL
       var strb = new StringBuilder();
       for (var i = 0; i < Sensors.Count; i++)
         strb.Append("S" + i + ":").Append(RecentReadings[i][0]).Append(" ");
-      CollectedTimeStamps.Add(new TimeStamp("Read", strb.ToString()
+      CollectedTimeStamps.Add(new TimeStamp("READ", strb.ToString()
       ));
       return null;
     }
     public static string GenerareReport()
     {
+      var strb = new StringBuilder();
+      strb.AppendLine("Report " + DateTime.Now);
+      strb.AppendLine("Values " + Config.GetBorderValuesInOneString());
+      strb.AppendLine();
+      CollectedTimeStamps.ForEach(x=>strb.AppendLine(x.ToString()));
+      CollectedTimeStamps = new List<TimeStamp>();
+
+      string fileName = (DateTime.Now + " " + Guid.NewGuid().ToString().Substring(0,8) + ".txt").Replace(':','-');
+      string path = Path.Combine(Environment.CurrentDirectory,"Reports", fileName);
+      File.WriteAllText(path,strb.ToString());
       return null;
     }
 

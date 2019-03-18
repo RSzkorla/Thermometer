@@ -18,7 +18,7 @@ namespace Thermometer.BLL
     public override string ToString()
     {
       return Time.ToShortDateString() + " "
-             + Time.ToShortTimeString() + " "
+             + Time.ToLongTimeString() + " "
              + Type + ":"
              + Value;
     }

@@ -25,11 +25,10 @@ namespace Thermometer.BLL
       LowerWarnBorder = 11 ;
       UpperWarnBorder = 15 ;
       UpperAlarmBorder = 16;
-      Emails = new List<string>();
       PhoneNumbers = new List<string>();
       DataRefreshRateInSec = 2;
       DataCollectionRateInSec = 60;
-      ReportTime = DateTime.Parse("12:20:00");
+      ReportTime = DateTime.Parse("11:48:00");
     }
 
     public double LowerAlarmBorder { get; set; }
@@ -37,7 +36,7 @@ namespace Thermometer.BLL
     public double UpperWarnBorder { get; set; }
     public double UpperAlarmBorder { get; set; }
 
-    public List<string> Emails { get; set; }
+
     public List<string> PhoneNumbers { get; set; }
 
     public double DataRefreshRateInSec { get; set; }
@@ -57,7 +56,7 @@ namespace Thermometer.BLL
     public void SaveConfigToFile(ConfigViewModel configViewModel)
     {
       var json = JsonConvert.SerializeObject(configViewModel);
-      File.WriteAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"), json);
+      File.WriteAllText("config.json", json);
     }
 
 
@@ -69,45 +68,36 @@ namespace Thermometer.BLL
       LowerWarnBorder = configViewModel.LowerWarnBorder;
       UpperWarnBorder = configViewModel.UpperWarnBorder;
       UpperAlarmBorder = configViewModel.UpperAlarmBorder;
-      Emails = configViewModel.Emails;
+
       PhoneNumbers = configViewModel.PhoneNumbers;
       DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
       ReportTime = configViewModel.ReportTime;
     }
 
-    public ConfigViewModel GenenerateViewModel()
-    {
-      return new ConfigViewModel
-      {
-        LowerAlarmBorder = LowerAlarmBorder,
-        LowerWarnBorder = LowerWarnBorder,
-        UpperWarnBorder = UpperWarnBorder,
-        UpperAlarmBorder = UpperAlarmBorder,
-        Emails = Emails,
-        PhoneNumbers = PhoneNumbers,
-        DataRefreshRateInSec = DataRefreshRateInSec,
-        DataCollectionRateInSec = DataCollectionRateInSec,
-        ReportTime = ReportTime
-    };
-    }
-
+   
     private void GetConfigFromJson()
     {
 
     }
 
-    public void SaveConfigFromViewModel(ConfigViewModel configViewModel)
+    public ConfigViewModel GenenerateViewModel()
     {
-      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
-      LowerWarnBorder = configViewModel.LowerWarnBorder;
-      UpperWarnBorder = configViewModel.UpperWarnBorder;
-      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
-      Emails = configViewModel.Emails;
-      PhoneNumbers = configViewModel.PhoneNumbers;
-      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
-      DataCollectionRateInSec = configViewModel.DataCollectionRateInSec;
-      ReportTime = configViewModel.ReportTime;
-    SaveConfigToFile(configViewModel);
+      var cvm = new ConfigViewModel();
+      cvm.CountOfSensors = Engine.Sensors.Count;
+      cvm.LowerAlarmBorder =LowerAlarmBorder;
+      cvm.LowerWarnBorder = LowerWarnBorder;
+      cvm.UpperWarnBorder = UpperWarnBorder;
+      cvm.UpperAlarmBorder =UpperAlarmBorder;
+      return cvm;
     }
-  }
-}
+
+    public string GetBorderValuesInOneString()
+    {
+      return " LA: " + LowerAlarmBorder +
+             " LW: " + LowerWarnBorder +
+             " UW: " + UpperWarnBorder +
+             " UA: " + UpperAlarmBorder;
+
+    }
+  }         
+}           

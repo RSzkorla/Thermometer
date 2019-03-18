@@ -11,17 +11,25 @@
   <title>Technical Page</title>
 </head>
 <body>
-<dir>
-  <p>Session guid: @ViewBag.SessionGuid</p>
-</dir>
-<div>
-  <p>Refresh rate: @(ViewBag.RefreshRate * 1000) s</p>
-</div>
-<div>
-  <p>Average temp collection rate: @(ViewBag.CollectionRate * 1000) s</p>
-</div>
-<div>
-  <p>Daily report hour: @ViewBag.ReportTime.Hour:@ViewBag.ReportTime.Minute:@ViewBag.ReportTime.Second </p>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div>
+      <p>Session guid: @ViewBag.SessionGuid</p>
+    </div>
+    <div>
+      <p>Refresh rate: @(ViewBag.RefreshRate * 1000) s</p>
+    </div>
+    <div>
+      <p>Average temp collection rate: @(ViewBag.CollectionRate * 1000) s</p>
+    </div>
+    <div>
+      <p>Daily report hour: @ViewBag.ReportTime.ToLongTimeString() </p>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div id="log"></div>
+  </div>
 </div>
 </body>
 </html>
@@ -29,23 +37,16 @@
 
 <script type="text/javascript">
 
-  var refreshForm = document.getElementById("refresh-form");
-  var refreshButton = document.getElementById("refresh-button");
-  var collectionForm = document.getElementById("collection-form");
-  var collectionButton = document.getElementById("collection-button");
-  var reportForm = document.getElementById("report-form");
-  var reportButton = document.getElementById("report-button");
 
+  var log = document.getElementById("log");
   var connection = new signalR.HubConnection("/hubs/update");
   connection.start();
 
   //Refresh
   setInterval(function() {
 
-
       var message = "";
       connection.send("Update", message);
-
 
       if (canceled) {
         console.log('Click event was canceled');
@@ -78,7 +79,12 @@
         }
       }
     },
-    30000);
+    55000);
 
+
+  var btnClick = function() {
+    connection.send("Report", message);
+    log.appendChild("clicked");
+  }
 
 </script>

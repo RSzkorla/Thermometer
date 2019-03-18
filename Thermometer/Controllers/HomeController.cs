@@ -40,14 +40,13 @@ namespace Thermometer.Controllers
 
     public IActionResult Config()
     {
-     
-      return View(Engine.Config.GenenerateViewModel());
+      return View();
     }
 
     [HttpPost]
     public IActionResult Config(ConfigViewModel config)
     {
-      Engine.Config.SaveConfigFromViewModel(config);
+      
       return RedirectToAction("Index", "Home",new { message = "Ok" });
     }
   }

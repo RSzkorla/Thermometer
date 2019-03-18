@@ -12,14 +12,14 @@ namespace Thermometer.BLL
     public void SendWarning(string message)
     {
       if (!CanISendWarning) return;
-      Engine.CollectedTimeStamps.Add(new TimeStamp("Warning", message));
+
       Hub.SendWarning(DateTime.Now.ToLocalTime() + " " + message);
     }
 
     public void SendAlert(string message)
     {
       if (!CanISendAlert) return;
-      Engine.CollectedTimeStamps.Add(new TimeStamp("Alert", message));
+
       Hub.SendAlert(DateTime.Now.ToLocalTime() + " " + message);
     }
   }
