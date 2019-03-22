@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Thermometer.BLL;
@@ -54,18 +55,18 @@ namespace Thermometer.Controllers
     public IActionResult Reports()
     {
       var files = Directory.GetFiles(Path.Combine(Path.Combine(Environment.CurrentDirectory, "Reports"))).ToList();
-      ViewBag.Files = files;
-      return View(files);
+      
+      return View(files.Select(Path.GetFileName).Reverse().ToList());
     }
 
     public async Task<IActionResult> GetFile(string fileName)
     {
       if (fileName == null)
-        return Content("filename not present");
+        return Content("FileNotFound");
 
       var path = Path.Combine(
         Directory.GetCurrentDirectory(),
-        "wwwroot", fileName);
+        "Reports", fileName);
 
       var memory = new MemoryStream();
       using (var stream = new FileStream(path, FileMode.Open))
@@ -75,6 +76,7 @@ namespace Thermometer.Controllers
       memory.Position = 0;
       return File(memory, GetContentType(path), Path.GetFileName(path));
     }
+
     private string GetContentType(string path)
     {
       var types = GetMimeTypes();

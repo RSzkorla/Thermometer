@@ -115,7 +115,7 @@ namespace Thermometer.BLL
       ));
       return null;
     }
-    public static string GenerareReport()
+    public static string GenerateReport()
     {
       var strb = new StringBuilder();
       strb.AppendLine("Report " + DateTime.Now);
@@ -124,7 +124,7 @@ namespace Thermometer.BLL
       CollectedTimeStamps.ForEach(x=>strb.AppendLine(x.ToString()));
       CollectedTimeStamps = new List<TimeStamp>();
 
-      string fileName = (DateTime.Now + " " + Guid.NewGuid().ToString().Substring(0,8) + ".txt").Replace(':','-');
+      string fileName = (DateTime.Today + " " + Guid.NewGuid().ToString().Substring(0,8) + ".txt").Replace(':','-');
       string path = Path.Combine(Environment.CurrentDirectory,"Reports", fileName);
       File.WriteAllText(path,strb.ToString());
       return null;

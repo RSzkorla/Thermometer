@@ -1,14 +1,13 @@
 ﻿@model System.Collections.IEnumerable
-@{
-    ViewData["Title"] = "Reports";
-}
 
+<link href="~/css/reports.css" rel="stylesheet" />
 <h2>Reports</h2>
-<ul>
+<br/>
+<ul class="list-group list-group-flush">
   
   @foreach (var item in Model)
   {
-    <li>
+    <li class="list-group-item item-flex">
       @if (Html != null)
       {
         @Html.ActionLink(item.ToString(), "GetFile","Home", new {fileName = item.ToString()},null)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Thermometer.BLL
@@ -36,5 +37,7 @@ namespace Thermometer.BLL
       }
       list[0] = value;
     }
+
+
   }
 }
