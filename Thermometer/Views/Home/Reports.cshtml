@@ -1,0 +1,18 @@
+﻿@model System.Collections.IEnumerable
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h2>Reports</h2>
+<ul>
+  
+  @foreach (var item in Model)
+  {
+    <li>
+      @if (Html != null)
+      {
+        @Html.ActionLink(item.ToString(), "GetFile","Home", new {fileName = item.ToString()},null)
+      }
+    </li>
+  }
+</ul>
