@@ -9,7 +9,7 @@ namespace Thermometer.BLL
 {
   public static class Engine
   {
-    public static Config Config = Config.InstanceConfig;
+    public static Config Config = ConfigInitializer.GetConfig();
     public static List<ISensory> Sensors;
     public static List<List<double>> RecentReadings;
     public static List<TimeStamp> CollectedTimeStamps;
@@ -18,6 +18,7 @@ namespace Thermometer.BLL
 
     static Engine()
     {
+
       Sensors = new List<ISensory>
       {
         new ProxySensor(),
@@ -48,7 +49,6 @@ namespace Thermometer.BLL
       };
       CollectedTimeStamps = new List<TimeStamp>();
       CollectedTimeStamps.Add(new TimeStamp("STARTUP","System started"));
-      
     }
 
 

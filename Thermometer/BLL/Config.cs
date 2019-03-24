@@ -8,27 +8,11 @@ namespace Thermometer.BLL
 {
   public class Config
   {
-    private static Config _instanceConfig;
 
-    private Config()
+
+    public Config()
     {
-      //var configViewModel = JsonConvert.DeserializeObject(
-      //  File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "config.json"))) as ConfigViewModel;
-      //LowerAlarmBorder = configViewModel.LowerAlarmBorder;
-      //LowerWarnBorder = configViewModel.LowerWarnBorder;
-      //UpperWarnBorder = configViewModel.UpperWarnBorder;
-      //UpperAlarmBorder = configViewModel.UpperAlarmBorder;
-      //Emails = configViewModel.Emails;
-      //PhoneNumbers = configViewModel.PhoneNumbers;
-      //DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
-      LowerAlarmBorder = 10;
-      LowerWarnBorder = 11 ;
-      UpperWarnBorder = 15 ;
-      UpperAlarmBorder = 16;
-      PhoneNumbers = new List<string>();
-      DataRefreshRateInSec = 2;
-      DataCollectionRateInSec = 60;
-      ReportTime = DateTime.Parse("11:48:00");
+      
     }
 
     public double LowerAlarmBorder { get; set; }
@@ -43,19 +27,11 @@ namespace Thermometer.BLL
     public double DataCollectionRateInSec { get; set; }
     public DateTime ReportTime { get; set; }
 
-    public static Config InstanceConfig
-    {
-      get
-      {
-        if (_instanceConfig == null)
-          _instanceConfig = new Config();
-        return _instanceConfig;
-      }
-    }
 
-    public void SaveConfigToFile(ConfigViewModel configViewModel)
+
+    public void SaveConfigToFile()
     {
-      var json = JsonConvert.SerializeObject(configViewModel);
+      var json = JsonConvert.SerializeObject(this);
       File.WriteAllText("config.json", json);
     }
 

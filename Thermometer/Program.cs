@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Thermometer.BLL;
 
 namespace Thermometer
 {
@@ -12,6 +13,7 @@ namespace Thermometer
       File.WriteAllText("guid",Guid.NewGuid().ToString());
       Console.WriteLine(File.ReadAllText("guid"));
       Console.WriteLine(Environment.CurrentDirectory);
+
       BuildWebHost(args).Run();
     }
 
