@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Thermometer.BLL;
@@ -13,7 +12,6 @@ namespace Thermometer.Controllers
 {
   public class HomeController : Controller
   {
-    
     public IActionResult Index(string message)
     {
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
@@ -40,22 +38,11 @@ namespace Thermometer.Controllers
       return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 
-    public IActionResult Config()
-    {
-      return View();
-    }
-
-    [HttpPost]
-    public IActionResult Config(ConfigViewModel config)
-    {
-      
-      return RedirectToAction("Index", "Home",new { message = "Ok" });
-    }
 
     public IActionResult Reports()
     {
       var files = Directory.GetFiles(Path.Combine(Path.Combine(Environment.CurrentDirectory, "Reports"))).ToList();
-      
+
       return View(files.Select(Path.GetFileName).Reverse().ToList());
     }
 
@@ -73,6 +60,7 @@ namespace Thermometer.Controllers
       {
         await stream.CopyToAsync(memory);
       }
+
       memory.Position = 0;
       return File(memory, GetContentType(path), Path.GetFileName(path));
     }
@@ -93,14 +81,13 @@ namespace Thermometer.Controllers
         {".doc", "application/vnd.ms-word"},
         {".docx", "application/vnd.ms-word"},
         {".xls", "application/vnd.ms-excel"},
-        {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},  
-          {".png", "image/png"},
+        {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
+        {".png", "image/png"},
         {".jpg", "image/jpeg"},
         {".jpeg", "image/jpeg"},
         {".gif", "image/gif"},
         {".csv", "text/csv"}
       };
-      }
-
+    }
   }
 }

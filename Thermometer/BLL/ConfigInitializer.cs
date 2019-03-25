@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
+using Newtonsoft.Json;
 
 namespace Thermometer.BLL
 {
   public class ConfigInitializer
   {
-    public static Config GetConfig() => JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+    public static Config GetConfig()
+    {
+      return JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+    }
   }
-  
 }

@@ -1,16 +1,16 @@
 ﻿@model System.Collections.IEnumerable
 
-<link href="~/css/reports.css" rel="stylesheet" />
+<link href="~/css/reports.css" rel="stylesheet"/>
 <h2>Reports</h2>
 <br/>
 <ul class="list-group list-group-flush">
-  
+
   @foreach (var item in Model)
   {
     <li class="list-group-item item-flex">
       @if (Html != null)
       {
-        @Html.ActionLink(item.ToString(), "GetFile","Home", new {fileName = item.ToString()},null)
+        @Html.ActionLink(item.ToString(), "GetFile", "Home", new {fileName = item.ToString()}, null)
       }
     </li>
   }

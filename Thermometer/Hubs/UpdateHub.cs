@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.SignalR;
 using Thermometer.BLL;
 
@@ -10,6 +7,11 @@ namespace Thermometer.Hubs
 {
   public class UpdateHub : Hub
   {
+    public UpdateHub()
+    {
+      Engine.ViewAlerter.Hub = this;
+    }
+
     public override async Task OnConnectedAsync()
     {
       //HostingApplication.Context.User.Identity.Name
@@ -40,6 +42,7 @@ namespace Thermometer.Hubs
     {
       await Clients.Caller.SendAsync("Collect", "", Engine.GenerateReport());
     }
+
     public async Task SendAlert(string message)
     {
       await Clients.All.SendAsync("Alert", message);
@@ -48,10 +51,6 @@ namespace Thermometer.Hubs
     public async Task SendWarning(string message)
     {
       await Clients.All.SendAsync("Warning", message);
-    }
-    public UpdateHub()
-    {
-      Engine.ViewAlerter.Hub = this;
     }
   }
 }

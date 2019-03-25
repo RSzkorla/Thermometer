@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Thermometer.BLL;
 
 namespace Thermometer.BLL
 {
   public class ProxyAlerter : GsmAlerter, IAlerter
   {
-    private IHostingEnvironment _env;
+    private readonly IHostingEnvironment _env;
 
     public ProxyAlerter()
     {
@@ -20,9 +14,9 @@ namespace Thermometer.BLL
     }
 
 
-    public new void  SendWarning(string message)
+    public new void SendWarning(string message)
     {
-      string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"));
+      var content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyWarnings.txt"));
       var strb = new StringBuilder();
       strb.Append(content);
       strb.AppendLine(message);
@@ -31,7 +25,7 @@ namespace Thermometer.BLL
 
     public new void SendAlert(string message)
     {
-      string content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyAlerts.txt"));
+      var content = File.ReadAllText(Path.Combine(_env.WebRootPath, "temp", "proxyAlerts.txt"));
       var strb = new StringBuilder();
       strb.Append(content);
       strb.AppendLine(message);

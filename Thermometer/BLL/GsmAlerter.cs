@@ -32,21 +32,19 @@ namespace Thermometer.BLL
       if (CanISendAlert)
       {
         var strb = new StringBuilder();
-        strb.Append("#!/usr/bin/expect -f" +r+
-        "spawn minicom -D /dev/ttyS0\\r\"" + r +
-        "send \"AT\\r\"" + r +
-        "expect" + r);
+        strb.Append("#!/usr/bin/expect -f" + r +
+                    "spawn minicom -D /dev/ttyS0\\r\"" + r +
+                    "send \"AT\\r\"" + r +
+                    "expect" + r);
         foreach (var number in PhoneNumberList)
-        {
           strb.Append("send \"AT + CMGF = 1\\r\"" + r +
-          "expect" + r +
-          $"send \"AT+CMGS=\\\"{number}\\\"\\r\"" + r +
-          "expect" + r +
-          $"send \"{message}\r\"" + r +
-          "expect" + r +
-          "send \"\032\"" + r);
-        }
-        File.WriteAllText(Path.Combine("/home","pi", "script.sh"), strb.ToString());
+                      "expect" + r +
+                      $"send \"AT+CMGS=\\\"{number}\\\"\\r\"" + r +
+                      "expect" + r +
+                      $"send \"{message}\r\"" + r +
+                      "expect" + r +
+                      "send \"\032\"" + r);
+        File.WriteAllText(Path.Combine("/home", "pi", "script.sh"), strb.ToString());
         var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
         //var path = Path.Combine("/home", "pi", "script.sh");
         path.Bash();

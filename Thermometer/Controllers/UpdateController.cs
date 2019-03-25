@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Thermometer.BLL;
 
 namespace Thermometer.Controllers
 {
   public class UpdateController : Controller
   {
-    private static bool _firstLoadFailed = true;
+    private static readonly bool _firstLoadFailed = true;
+
     public IActionResult Index(string guid)
     {
-      string readGuid = System.IO.File.ReadAllText("guid");
-      if (readGuid != guid&&_firstLoadFailed) return RedirectToAction("Error");
+      var readGuid = System.IO.File.ReadAllText("guid");
+      if (readGuid != guid && _firstLoadFailed) return RedirectToAction("Error");
       //_firstLoadFailed = false;
       ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
       ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;

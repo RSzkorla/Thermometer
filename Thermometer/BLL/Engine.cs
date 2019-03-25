@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 
 namespace Thermometer.BLL
@@ -18,15 +17,9 @@ namespace Thermometer.BLL
 
     static Engine()
     {
-
-      Sensors = new List<ISensory>
-      {
-        new ProxySensor(),
-        new ProxySensor()
-      };
-
+      Sensors = EspSensorsInitializer.GetSensors();
       ViewAlerter = new ViewAlerter();
-      GsmAlerter = new ProxyAlerter();
+      GsmAlerter = new GsmAlerter();
 
       RecentReadings = new List<List<double>>
       {
@@ -47,10 +40,8 @@ namespace Thermometer.BLL
           Sensors.ElementAt(1).GetTemperature()
         }
       };
-      CollectedTimeStamps = new List<TimeStamp>();
-      CollectedTimeStamps.Add(new TimeStamp("STARTUP","System started"));
+      CollectedTimeStamps = new List<TimeStamp> {new TimeStamp("STARTUP", "System started")};
     }
-
 
 
     public static bool CheckWarningRange(double temperature)
@@ -89,12 +80,14 @@ namespace Thermometer.BLL
         ViewAlerter.CanISendWarning = true;
         GsmAlerter.CanISendAlert = true;
       }
+
       if (CheckWarningRange(average) && !CheckAlarmRange(average))
       {
         ViewAlerter.SendWarning("Warning");
         CollectedTimeStamps.Add(new TimeStamp("WARNING", "Temperature in warning range"));
         ViewAlerter.CanISendWarning = false;
       }
+
       if (CheckAlarmRange(average))
       {
         ViewAlerter.SendAlert("ALERT Temperature is out of allowed range!");
@@ -103,6 +96,7 @@ namespace Thermometer.BLL
         ViewAlerter.CanISendAlert = false;
         GsmAlerter.CanISendAlert = false;
       }
+
       return null;
     }
 
@@ -115,18 +109,19 @@ namespace Thermometer.BLL
       ));
       return null;
     }
+
     public static string GenerateReport()
     {
       var strb = new StringBuilder();
       strb.AppendLine("Report " + DateTime.Now);
       strb.AppendLine("Values " + Config.GetBorderValuesInOneString());
       strb.AppendLine();
-      CollectedTimeStamps.ForEach(x=>strb.AppendLine(x.ToString()));
+      CollectedTimeStamps.ForEach(x => strb.AppendLine(x.ToString()));
       CollectedTimeStamps = new List<TimeStamp>();
 
-      string fileName = (DateTime.Today + " " + Guid.NewGuid().ToString().Substring(0,8) + ".txt").Replace(':','-');
-      string path = Path.Combine(Environment.CurrentDirectory,"Reports", fileName);
-      File.WriteAllText(path,strb.ToString());
+      var fileName = (DateTime.Today + " " + Guid.NewGuid().ToString().Substring(0, 8) + ".txt").Replace(':', '-');
+      var path = Path.Combine(Environment.CurrentDirectory, "Reports", fileName);
+      File.WriteAllText(path, strb.ToString());
       return null;
     }
 
