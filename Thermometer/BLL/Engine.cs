@@ -52,7 +52,7 @@ namespace Thermometer.BLL
 
     public static bool CheckAlarmRange(double temperature)
     {
-      if (temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder) return true;
+      if ((temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder)&&temperature > -100) return true;
       return false;
     }
 
@@ -74,18 +74,12 @@ namespace Thermometer.BLL
 
       average = sum / Sensors.Count;
 
-      if (!CheckWarningRange(average) && !CheckAlarmRange(average))
-      {
-        ViewAlerter.CanISendAlert = true;
-        ViewAlerter.CanISendWarning = true;
-        GsmAlerter.CanISendAlert = true;
-      }
+
 
       if (CheckWarningRange(average) && !CheckAlarmRange(average))
       {
         ViewAlerter.SendWarning("Warning");
         CollectedTimeStamps.Add(new TimeStamp("WARNING", "Temperature in warning range"));
-        ViewAlerter.CanISendWarning = false;
       }
 
       if (CheckAlarmRange(average))
@@ -93,8 +87,7 @@ namespace Thermometer.BLL
         ViewAlerter.SendAlert("ALERT Temperature is out of allowed range!");
         GsmAlerter.SendAlert("Alert!!! Temperature is out of allowed range!");
         CollectedTimeStamps.Add(new TimeStamp("ALERT", "Temperature out of allowed range!"));
-        ViewAlerter.CanISendAlert = false;
-        GsmAlerter.CanISendAlert = false;
+
       }
 
       return null;

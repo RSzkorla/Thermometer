@@ -36,20 +36,6 @@ namespace Thermometer.BLL
     }
 
 
-    public void RestoreDefaults()
-    {
-      var configViewModel = (ConfigViewModel) JsonConvert.DeserializeObject(
-        File.ReadAllText(Path.Combine(Startup.Environment.WebRootPath, "configs", "default.json")));
-      LowerAlarmBorder = configViewModel.LowerAlarmBorder;
-      LowerWarnBorder = configViewModel.LowerWarnBorder;
-      UpperWarnBorder = configViewModel.UpperWarnBorder;
-      UpperAlarmBorder = configViewModel.UpperAlarmBorder;
-
-      PhoneNumbers = configViewModel.PhoneNumbers;
-      DataRefreshRateInSec = configViewModel.DataRefreshRateInSec;
-      ReportTime = configViewModel.ReportTime;
-    }
-
    
     private void GetConfigFromJson()
     {

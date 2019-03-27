@@ -12,7 +12,7 @@ namespace Thermometer.Controllers
       var readGuid = System.IO.File.ReadAllText("guid");
       if (readGuid != guid && _firstLoadFailed) return RedirectToAction("Error");
       //_firstLoadFailed = false;
-      ViewBag.RefreshRate = Engine.Config.DataRefreshRateInSec;
+      ViewBag.RefreshRate = 2;
       ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;
       ViewBag.ReportTime = Engine.Config.ReportTime;
       ViewBag.SessionGuid = guid;

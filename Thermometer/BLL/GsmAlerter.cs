@@ -44,9 +44,9 @@ namespace Thermometer.BLL
                       $"send \"{message}\r\"" + r +
                       "expect" + r +
                       "send \"\032\"" + r);
-        File.WriteAllText(Path.Combine("/home", "pi", "script.sh"), strb.ToString());
-        var path = Path.Combine(_env.WebRootPath, "bashScripts", "script.sh");
-        //var path = Path.Combine("/home", "pi", "script.sh");
+        File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "script.sh"), strb.ToString());
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "script.sh");
+
         path.Bash();
       }
     }

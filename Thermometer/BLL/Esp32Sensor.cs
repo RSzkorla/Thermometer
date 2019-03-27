@@ -31,41 +31,51 @@ namespace Thermometer.BLL
       string uri = "http://" + _espIpAddress + ":80/get";
       using (var client = new HttpClient())
       {
-        using (var res = client.GetAsync(uri).Result)
+        try
         {
-          if (!res.IsSuccessStatusCode && sendAlert)
+          using (var res = client.GetAsync(uri).Result)
           {
-            sendAlert = false;
-            Engine.GsmAlerter.SendAlert("Error with sensor "+ GetDeviceId()+". Intervention needed");
-            return -999;
-          }
-
-          using (var content = res.Content)
-          {
-            readings++;
-            string data = content.ReadAsStringAsync().Result.Split(',').ElementAt(_sensorID);
-            var value = Convert.ToDouble(data, new NumberFormatInfo { NumberDecimalSeparator = "."});
-            if (value == -999.00)
+            if (!res.IsSuccessStatusCode && sendAlert)
             {
-              errorReadings++;
+              
+              Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+              return -999;
+            }
 
-              if ((errorReadings / readings * 100) > 10 && sendAlert)
+            using (var content = res.Content)
+            {
+              readings++;
+              string data = content.ReadAsStringAsync().Result.Split(',').ElementAt(_sensorID);
+              var value = Convert.ToDouble(data, new NumberFormatInfo {NumberDecimalSeparator = "."});
+              if (value == -999.00)
               {
-                Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
-                sendAlert = false;
+                errorReadings++;
+
+                if ((errorReadings / readings * 100) > 10 && sendAlert)
+                {
+                  Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+                  
+                }
+
+                return lastValue;
               }
 
-              return lastValue;
+              
+              lastValue = value;
+              if (readings != int.MaxValue - 1) return value;
+              readings = 0;
+              errorReadings = 0;
+              return value;
             }
-            sendAlert = true;
-            lastValue = value;
-            if (readings != int.MaxValue - 1) return value;
-            readings = 0;
-            errorReadings = 0;
-            return value;
           }
         }
-      }
+        catch (Exception e)
+        {
+          
+          Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+          return -999;
+        }
+    }
     }
   }
 }
