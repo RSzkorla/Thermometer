@@ -28,27 +28,36 @@ namespace Thermometer.BLL
 
     public void SendAlert(string message)
     {
-      var r = Environment.NewLine;
-      if (CanISendAlert)
+      //var r = Environment.NewLine;
+      //if (CanISendAlert)
+      //{
+      //  var strb = new StringBuilder();
+      //  strb.Append("#!/usr/bin/expect -f" + r +
+      //              "spawn minicom -D /dev/ttyS0\\r\"" + r +
+      //              "send \"AT\\r\"" + r +
+      //              "expect" + r);
+      //  foreach (var number in PhoneNumberList)
+      //    strb.Append("send \"AT + CMGF = 1\\r\"" + r +
+      //                "expect" + r +
+      //                $"send \"AT+CMGS=\\\"{number}\\\"\\r\"" + r +
+      //                "expect" + r +
+      //                $"send \"{message}\r\"" + r +
+      //                "expect" + r +
+      //                "send \"\032\"" + r);
+      //  File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "script.sh"), strb.ToString());
+      if (message == "temp")
       {
-        var strb = new StringBuilder();
-        strb.Append("#!/usr/bin/expect -f" + r +
-                    "spawn minicom -D /dev/ttyS0\\r\"" + r +
-                    "send \"AT\\r\"" + r +
-                    "expect" + r);
-        foreach (var number in PhoneNumberList)
-          strb.Append("send \"AT + CMGF = 1\\r\"" + r +
-                      "expect" + r +
-                      $"send \"AT+CMGS=\\\"{number}\\\"\\r\"" + r +
-                      "expect" + r +
-                      $"send \"{message}\r\"" + r +
-                      "expect" + r +
-                      "send \"\032\"" + r);
-        File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "script.sh"), strb.ToString());
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "script.sh");
-
+        var path = Path.Combine(Directory.GetCurrentDirectory(),"Scripts", "temp.sh");
         path.Bash();
       }
+      if (message == "device")
+      {
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "device.sh");
+        path.Bash();
+      }
+
+
+    }
     }
   }
 }

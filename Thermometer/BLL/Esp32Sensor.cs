@@ -38,7 +38,7 @@ namespace Thermometer.BLL
             if (!res.IsSuccessStatusCode && sendAlert)
             {
               
-              Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+              Engine.GsmAlerter.SendAlert("device");
               return -999;
             }
 
@@ -53,7 +53,7 @@ namespace Thermometer.BLL
 
                 if ((errorReadings / readings * 100) > 10 && sendAlert)
                 {
-                  Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+                  Engine.GsmAlerter.SendAlert("device");
                   
                 }
 
@@ -72,7 +72,7 @@ namespace Thermometer.BLL
         catch (Exception e)
         {
           
-          Engine.GsmAlerter.SendAlert("Error with sensor " + GetDeviceId() + ". Intervention needed");
+          Engine.GsmAlerter.SendAlert("device");
           return -999;
         }
     }
