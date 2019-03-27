@@ -57,7 +57,7 @@ namespace Thermometer.BLL
       }
 
 
-    }
+    
     }
   }
 }
