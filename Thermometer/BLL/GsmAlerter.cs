@@ -10,17 +10,17 @@ namespace Thermometer.BLL
   {
     private readonly IHostingEnvironment _env;
     public bool CanISendAlert = true;
+    private SerialPortCommunication serialPort;
+    public List<string> PhoneNumberList { get; set; }
 
     public GsmAlerter()
     {
       _env = Startup.Environment;
-      PhoneNumberList = new List<string>
-      {
-        "+48883984162"
-      };
+      PhoneNumberList = Engine.Config.PhoneNumbers;
+      serialPort = new SerialPortCommunication();
     }
 
-    public List<string> PhoneNumberList { get; set; }
+    
 
     public void SendWarning(string message)
     {
@@ -47,13 +47,21 @@ namespace Thermometer.BLL
       //  File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "script.sh"), strb.ToString());
       if (message == "temp")
       {
-        var path = Path.Combine(Directory.GetCurrentDirectory(),"Scripts", "temp.sh");
-        path.Bash();
+        foreach (var item in PhoneNumberList)
+        {
+          serialPort.SendSMS(item,"ALERT Temperature out of allowed range");
+        }
+        //var path = Path.Combine(Directory.GetCurrentDirectory(),"Scripts", "temp.sh");
+        //path.Bash();
       }
       if (message == "device")
       {
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "device.sh");
-        path.Bash();
+        foreach (var item in PhoneNumberList)
+        {
+          serialPort.SendSMS(item, "ALERT Device problem. Probably power supply problem");
+        }
+        //var path = Path.Combine(Directory.GetCurrentDirectory(), "Scripts", "device.sh");
+        //path.Bash();
       }
 
 
