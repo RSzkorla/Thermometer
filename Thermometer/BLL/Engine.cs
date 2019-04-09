@@ -44,17 +44,9 @@ namespace Thermometer.BLL
     }
 
 
-    public static bool CheckWarningRange(double temperature)
-    {
-      if (temperature < Config.LowerWarnBorder || temperature > Config.UpperWarnBorder) return true;
-      return false;
-    }
+    public static bool CheckWarningRange(double temperature) => temperature < Config.LowerWarnBorder || temperature > Config.UpperWarnBorder;
 
-    public static bool CheckAlarmRange(double temperature)
-    {
-      if ((temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder)&&temperature > -100) return true;
-      return false;
-    }
+    public static bool CheckAlarmRange(double temperature) => (temperature < Config.LowerAlarmBorder || temperature > Config.UpperAlarmBorder)&&temperature > -100;
 
     public static string GetRecentReadings()
     {
