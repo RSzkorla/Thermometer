@@ -42,7 +42,7 @@ namespace Thermometer.BLL
 
     }
 
-    public ConfigViewModel GenenerateViewModel()
+    public ConfigViewModel GenerateViewModel()
     {
       var cvm = new ConfigViewModel();
       cvm.CountOfSensors = Engine.Sensors.Count;

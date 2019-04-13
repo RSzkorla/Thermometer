@@ -7,12 +7,12 @@ namespace Thermometer.BLL
 {
   public class Esp32Sensor : ISensory
   {
-    public string _espIpAddress = "192.168.4.1";
+    private string _espIpAddress = "192.168.4.1";
     public string _description = "Remote Sensor";
-    public int _sensorID = 0;
+    private int _sensorID = 0;
     private double lastValue = 0;
-    private long readings=0;
-    private long errorReadings = 0;
+    private short readings=0;
+    private short errorReadings = 0;
     private bool sendAlert = true;
 
 
@@ -50,21 +50,16 @@ namespace Thermometer.BLL
               if (value == -999.00)
               {
                 errorReadings++;
-
                 if ((errorReadings / readings * 100) > 10 && sendAlert)
                 {
                   Engine.GsmAlerter.SendAlert("device");
-                  
                 }
-
                 return lastValue;
               }
-
-              
               lastValue = value;
-              if (readings != int.MaxValue - 1) return value;
-              readings = 0;
-              errorReadings = 0;
+              if (readings != short.MaxValue - 1) return value;
+              readings /= 10 ;
+              errorReadings /= 10;
               return value;
             }
           }

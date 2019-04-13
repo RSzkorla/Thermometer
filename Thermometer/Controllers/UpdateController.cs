@@ -16,7 +16,7 @@ namespace Thermometer.Controllers
       ViewBag.CollectionRate = Engine.Config.DataCollectionRateInSec;
       ViewBag.ReportTime = Engine.Config.ReportTime;
       ViewBag.SessionGuid = guid;
-      return View(Engine.Config.GenenerateViewModel());
+      return View(Engine.Config.GenerateViewModel());
     }
 
     public IActionResult Error()
